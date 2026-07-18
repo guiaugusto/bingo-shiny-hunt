@@ -1,3 +1,5 @@
+import { SIZES } from '../constants';
+
 interface HeaderProps {
   size: number;
   onSizeChange: (n: number) => void;
@@ -5,8 +7,6 @@ interface HeaderProps {
   onExportPNG: () => void;
   onExportSVG: () => void;
 }
-
-const SIZES = [3, 5, 7, 9, 11, 13];
 
 export default function Header({ size, onSizeChange, onClearBoard, onExportPNG, onExportSVG }: HeaderProps) {
   return (

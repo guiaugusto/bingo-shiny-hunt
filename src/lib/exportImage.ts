@@ -187,6 +187,7 @@ export async function exportSVG(b: Bingo): Promise<void> {
   const esc = (s: string) => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const { P, cell, gap, gridTop } = L;
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${L.W}" height="${L.H}" viewBox="0 0 ${L.W} ${L.H}" font-family="Inter, system-ui, sans-serif">`;
+  s += `<defs><filter id="uncaught" x="-20%" y="-20%" width="140%" height="140%"><feColorMatrix type="saturate" values="0.1"/></filter></defs>`;
   s += `<rect width="100%" height="100%" fill="#161826"/>`;
   s += `<text x="${P}" y="${P + 40}" fill="#e9e9ed" font-size="40" font-weight="600">${esc(b.title || 'Shiny Bingo')}</text>`;
   if (b.description) {
@@ -205,7 +206,7 @@ export async function exportSVG(b: Bingo): Promise<void> {
     s += `<rect x="${x}" y="${y}" width="${cell}" height="${cell}" rx="16" fill="#232532"/>`;
     if (c.key && data[c.key]) {
       const box = cell - 60;
-      s += `<image href="${data[c.key]}" x="${x + 30}" y="${y + 18}" width="${box}" height="${box}" preserveAspectRatio="xMidYMid meet"${c.caught ? '' : ' opacity="0.55"'}/>`;
+      s += `<image href="${data[c.key]}" x="${x + 30}" y="${y + 18}" width="${box}" height="${box}" preserveAspectRatio="xMidYMid meet"${c.caught ? '' : ' opacity="0.55" filter="url(#uncaught)"'}/>`;
     }
     if (c.key) {
       s += `<text x="${x + cell / 2}" y="${y + cell - 22}" fill="#e9e9ed" font-size="17" font-weight="500" text-anchor="middle">${esc(c.name)}</text>`;

@@ -31,12 +31,24 @@ function defaultData(): StoredData {
   return { bingos: [first], activeId: first.id };
 }
 
+/** Drops caught:true on cells with no Pokémon, and truncates/pads cells to match size*size. */
+function sanitizeBingo(b: Bingo): Bingo {
+  const want = b.size * b.size;
+  const cells: Cell[] = [];
+  for (let i = 0; i < want; i++) {
+    const c = b.cells[i];
+    cells.push(c && c.key ? { ...c, caught: !!c.caught } : { key: null, name: '', game: '', caught: false });
+  }
+  return { ...b, cells };
+}
+
 export function loadData(): StoredData {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultData();
     const parsed = JSON.parse(raw) as StoredData;
     if (!parsed.bingos || !parsed.bingos.length) return defaultData();
+    parsed.bingos = parsed.bingos.map(sanitizeBingo);
     if (!parsed.bingos.some((b) => b.id === parsed.activeId)) {
       parsed.activeId = parsed.bingos[0].id;
     }

@@ -26,6 +26,17 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm }: Picke
 
   const poolAll = getDex(game);
 
+  // The initial pending (from an edited cell) only has its raw key — resolve its
+  // real baseSlug from dex data once loaded, so regional auto-swap can match it.
+  useEffect(() => {
+    if (!initialCell.key) return;
+    const match = poolAll.find((p) => p.key === initialCell.key);
+    if (match) {
+      setPending((prev) => (prev && prev.key === initialCell.key && prev.baseSlug !== match.baseSlug ? { ...prev, baseSlug: match.baseSlug } : prev));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [poolAll]);
+
   const autoVariant = (baseSlug: string, g: string) => {
     const suffix = GAME_SUFFIX[g];
     if (!suffix) return null;
