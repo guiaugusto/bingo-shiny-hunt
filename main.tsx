@@ -1,0 +1,167 @@
+:root {
+  --color-bg: #161826;
+  --color-surface: #1e2030;
+  --color-text: #e9e9ed;
+  --color-accent: #9184d9;
+  --color-accent-200: #d2cefd;
+  --color-accent-800: #322a56;
+  --color-divider: #2b2e42;
+  --color-neutral-700: #3a3d52;
+  --color-neutral-800: #262838;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --font-body: Inter, system-ui, sans-serif;
+  --font-heading: Inter, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(120% 90% at 50% -10%, #1c1f30, var(--color-bg) 60%);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+a {
+  color: var(--color-accent-200);
+}
+a:hover {
+  color: var(--color-accent);
+}
+
+button {
+  font-family: inherit;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text);
+}
+.btn-primary {
+  border-color: var(--color-accent);
+  color: var(--color-accent-200);
+}
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+}
+.btn-secondary {
+  border-color: var(--color-divider);
+}
+.btn-secondary:hover {
+  border-color: color-mix(in srgb, var(--color-text) 40%, transparent);
+}
+.btn-ghost:hover {
+  background: color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+.btn-icon {
+  padding: 8px;
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.input {
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  font-size: 13px;
+}
+.input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.tag {
+  display: inline-block;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 11, 18, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.dialog {
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-lg);
+}
+.dialog-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.sbm-rail::-webkit-scrollbar {
+  height: 6px;
+}
+.sbm-rail::-webkit-scrollbar-thumb {
+  background: var(--color-neutral-800);
+  border-radius: 3px;
+}
+
+.sbm-flat {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  width: 100%;
+}
+.sbm-flat:hover {
+  border-color: var(--color-divider);
+}
+.sbm-flat:focus-visible {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.sbm-cell-tools {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+@media (hover: hover) and (pointer: fine) {
+  .sbm-cell:hover .sbm-cell-tools {
+    opacity: 1;
+  }
+}
+.sbm-cell-tools.sbm-tools-revealed {
+  opacity: 1;
+}
+
+.sbm-res:hover {
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+.sbm-chip:hover {
+  border-color: color-mix(in srgb, var(--color-text) 40%, transparent);
+}
