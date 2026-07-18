@@ -1,0 +1,55 @@
+import type { Bingo, Cell } from '../types';
+
+const STORAGE_KEY = 'bsh:data:v1';
+
+interface StoredData {
+  bingos: Bingo[];
+  activeId: string;
+}
+
+export function emptyCells(size: number): Cell[] {
+  return Array.from({ length: size * size }, () => ({
+    key: null,
+    name: '',
+    game: '',
+    caught: false,
+  }));
+}
+
+export function newBingo(title: string, size: number): Bingo {
+  return {
+    id: (crypto.randomUUID?.() as string) || `bingo-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    title,
+    description: '',
+    size,
+    cells: emptyCells(size),
+  };
+}
+
+function defaultData(): StoredData {
+  const first = newBingo('My Shiny Bingo', 5);
+  return { bingos: [first], activeId: first.id };
+}
+
+export function loadData(): StoredData {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return defaultData();
+    const parsed = JSON.parse(raw) as StoredData;
+    if (!parsed.bingos || !parsed.bingos.length) return defaultData();
+    if (!parsed.bingos.some((b) => b.id === parsed.activeId)) {
+      parsed.activeId = parsed.bingos[0].id;
+    }
+    return parsed;
+  } catch {
+    return defaultData();
+  }
+}
+
+export function saveData(data: StoredData): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch {
+    /* storage full or unavailable — non-fatal */
+  }
+}
