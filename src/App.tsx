@@ -17,7 +17,6 @@ export default function App() {
     selectBingo,
     deleteBingo,
     setSize,
-    toggleCaught,
     clearCell,
     setCell,
     setTitle,
@@ -45,7 +44,6 @@ export default function App() {
         bingo={active}
         onTitleChange={setTitle}
         onDescriptionChange={setDescription}
-        onToggleCaught={toggleCaught}
         onEdit={setPickerIndex}
         onClear={clearCell}
       />

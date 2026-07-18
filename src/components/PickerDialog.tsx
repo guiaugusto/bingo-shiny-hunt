@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { Cell, PendingPick } from '../types';
-import { GAME_DATA, GAME_SUFFIX } from '../constants';
+import { GAME_DATA, GAME_SUFFIX, CAUGHT_COLOR } from '../constants';
 import { spriteUrl } from '../lib/dex';
 import { useDex } from '../hooks/useDex';
 
@@ -15,6 +15,7 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm }: Picke
   const [game, setGame] = useState(initialCell.game || '');
   const [query, setQuery] = useState('');
   const [random, setRandom] = useState(false);
+  const [caught, setCaught] = useState(initialCell.caught);
   const [pending, setPending] = useState<PendingPick | null>(
     initialCell.key ? { key: initialCell.key, name: initialCell.name, baseSlug: initialCell.key } : null,
   );
@@ -84,7 +85,7 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm }: Picke
 
   const confirm = () => {
     if (!pending) return;
-    onConfirm({ key: pending.key, name: pending.name, game, caught: initialCell.caught });
+    onConfirm({ key: pending.key, name: pending.name, game, caught });
   };
 
   return (
@@ -213,7 +214,7 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm }: Picke
         )}
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingTop: 10, borderTop: '1px solid var(--color-divider)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
             {pending ? (
               <>
                 <img src={spriteUrl(pending.key)} loading="lazy" alt="" style={{ width: 38, height: 38, objectFit: 'contain', flex: 'none' }} />
@@ -221,7 +222,8 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm }: Picke
                   style={{
                     fontSize: 13,
                     fontWeight: 500,
-                    flex: 'none',
+                    flex: '1 1 80px',
+                    minWidth: 60,
                     maxWidth: 160,
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -230,6 +232,17 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm }: Picke
                 >
                   {pending.name}
                 </span>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setCaught((c) => !c)}
+                  style={{
+                    marginLeft: 'auto',
+                    borderColor: caught ? CAUGHT_COLOR : undefined,
+                    color: caught ? CAUGHT_COLOR : undefined,
+                  }}
+                >
+                  {caught ? '✓ Caught' : 'Mark as caught'}
+                </button>
               </>
             ) : (
               <span style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 50%, transparent)', flex: 1 }}>

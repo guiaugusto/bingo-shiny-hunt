@@ -75,20 +75,6 @@ export function useBingoStore() {
     [patchActive],
   );
 
-  const toggleCaught = useCallback(
-    (i: number) => {
-      patchActive((b) => {
-        const cells = b.cells.slice();
-        const c = { ...cells[i] };
-        if (!c.key) return b;
-        c.caught = !c.caught;
-        cells[i] = c;
-        return { ...b, cells };
-      });
-    },
-    [patchActive],
-  );
-
   const clearCell = useCallback(
     (i: number) => {
       patchActive((b) => {
@@ -149,7 +135,6 @@ export function useBingoStore() {
     selectBingo,
     deleteBingo,
     setSize,
-    toggleCaught,
     clearCell,
     setCell,
     setTitle,

@@ -6,7 +6,6 @@ interface BingoBoardProps {
   bingo: Bingo;
   onTitleChange: (t: string) => void;
   onDescriptionChange: (d: string) => void;
-  onToggleCaught: (i: number) => void;
   onEdit: (i: number) => void;
   onClear: (i: number) => void;
 }
@@ -15,7 +14,6 @@ export default function BingoBoard({
   bingo,
   onTitleChange,
   onDescriptionChange,
-  onToggleCaught,
   onEdit,
   onClear,
 }: BingoBoardProps) {
@@ -45,11 +43,11 @@ export default function BingoBoard({
     <main
       style={{
         flex: 1,
-        padding: '48px 24px',
+        padding: 'clamp(20px, 6vw, 48px) clamp(12px, 4vw, 24px)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: 32,
+        gap: 'clamp(20px, 5vw, 32px)',
       }}
     >
       <div
@@ -70,11 +68,12 @@ export default function BingoBoard({
           style={{
             fontFamily: 'var(--font-heading)',
             fontWeight: 500,
-            fontSize: 30,
+            fontSize: 'clamp(22px, 5.5vw, 30px)',
             letterSpacing: '-0.015em',
             padding: '4px 8px',
             borderRadius: 'var(--radius-md)',
             textAlign: 'center',
+            width: '100%',
           }}
         />
         <textarea
@@ -93,20 +92,28 @@ export default function BingoBoard({
             textAlign: 'center',
           }}
         />
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, padding: '6px 8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, width: '100%', maxWidth: 320, padding: '6px 8px' }}>
           <div
             style={{
               flex: 1,
-              maxWidth: 260,
-              height: 6,
-              borderRadius: 3,
+              height: 8,
+              borderRadius: 4,
               background: 'var(--color-neutral-800)',
+              border: '1px solid var(--color-divider)',
               overflow: 'hidden',
             }}
           >
-            <div style={{ width: `${pct}%`, height: '100%', background: 'var(--color-accent)', transition: 'width 0.2s' }} />
+            <div
+              style={{
+                width: `${pct}%`,
+                height: '100%',
+                minWidth: pct > 0 ? 4 : 0,
+                background: 'var(--color-accent)',
+                transition: 'width 0.2s',
+              }}
+            />
           </div>
-          <span style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 60%, transparent)', whiteSpace: 'nowrap' }}>
+          <span style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 60%, transparent)', whiteSpace: 'nowrap', flex: 'none' }}>
             {caught}/{total} caught
           </span>
         </div>
@@ -128,7 +135,6 @@ export default function BingoBoard({
               cell={cell}
               index={i}
               revealed={revealedIdx === i}
-              onToggleCaught={onToggleCaught}
               onEdit={onEdit}
               onClear={onClear}
               onLongPressStart={startLongPress}

@@ -7,7 +7,6 @@ interface CellProps {
   cell: CellType;
   index: number;
   revealed: boolean;
-  onToggleCaught: (i: number) => void;
   onEdit: (i: number) => void;
   onClear: (i: number) => void;
   onLongPressStart: (i: number) => void;
@@ -18,7 +17,6 @@ export default function Cell({
   cell,
   index,
   revealed,
-  onToggleCaught,
   onEdit,
   onClear,
   onLongPressStart,
@@ -32,7 +30,7 @@ export default function Cell({
       className="sbm-cell"
       role="button"
       tabIndex={0}
-      onClick={() => (has ? onToggleCaught(index) : onEdit(index))}
+      onClick={() => onEdit(index)}
       onTouchStart={() => onLongPressStart(index)}
       onTouchEnd={onLongPressEnd}
       onTouchCancel={onLongPressEnd}
@@ -70,57 +68,10 @@ export default function Cell({
                 transition: 'filter 0.15s',
               }}
             />
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggleCaught(index);
-              }}
-              aria-label="Toggle caught"
-              title="Mark caught / uncaught"
-              style={{
-                position: 'absolute',
-                bottom: 3,
-                left: 3,
-                width: 26,
-                height: 26,
-                borderRadius: '50%',
-                border: cell.caught ? 'none' : '2px solid color-mix(in srgb, var(--color-text) 40%, transparent)',
-                background: cell.caught ? CAUGHT_COLOR : 'color-mix(in srgb, var(--color-bg) 70%, transparent)',
-                color: cell.caught ? '#0b3b2a' : 'transparent',
-                cursor: 'pointer',
-                display: 'grid',
-                placeItems: 'center',
-                fontSize: 13,
-              }}
-            >
-              ✓
-            </button>
             <div
               className={`sbm-cell-tools${revealed ? ' sbm-tools-revealed' : ''}`}
               style={{ position: 'absolute', top: 3, right: 3, display: 'flex', gap: 3 }}
             >
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onEdit(index);
-                }}
-                aria-label="Change Pokémon"
-                title="Change Pokémon"
-                style={{
-                  width: 24,
-                  height: 24,
-                  borderRadius: 'var(--radius-sm)',
-                  border: 0,
-                  background: 'color-mix(in srgb, var(--color-bg) 85%, transparent)',
-                  color: 'var(--color-text)',
-                  cursor: 'pointer',
-                  display: 'grid',
-                  placeItems: 'center',
-                  fontSize: 12,
-                }}
-              >
-                ✎
-              </button>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
