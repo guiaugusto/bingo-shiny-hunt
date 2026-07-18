@@ -6,22 +6,10 @@ import { gameTextColor } from '../lib/color';
 interface CellProps {
   cell: CellType;
   index: number;
-  revealed: boolean;
   onEdit: (i: number) => void;
-  onClear: (i: number) => void;
-  onLongPressStart: (i: number) => void;
-  onLongPressEnd: () => void;
 }
 
-export default function Cell({
-  cell,
-  index,
-  revealed,
-  onEdit,
-  onClear,
-  onLongPressStart,
-  onLongPressEnd,
-}: CellProps) {
+export default function Cell({ cell, index, onEdit }: CellProps) {
   const has = !!cell.key;
   const gm = GAME_MAP[cell.game];
 
@@ -31,10 +19,6 @@ export default function Cell({
       role="button"
       tabIndex={0}
       onClick={() => onEdit(index)}
-      onTouchStart={() => onLongPressStart(index)}
-      onTouchEnd={onLongPressEnd}
-      onTouchCancel={onLongPressEnd}
-      onTouchMove={onLongPressEnd}
       style={{
         position: 'relative',
         display: 'flex',
@@ -68,33 +52,6 @@ export default function Cell({
                 transition: 'filter 0.15s',
               }}
             />
-            <div
-              className={`sbm-cell-tools${revealed ? ' sbm-tools-revealed' : ''}`}
-              style={{ position: 'absolute', top: 3, right: 3, display: 'flex', gap: 3 }}
-            >
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onClear(index);
-                }}
-                aria-label="Remove Pokémon"
-                title="Remove Pokémon"
-                style={{
-                  width: 24,
-                  height: 24,
-                  borderRadius: 'var(--radius-sm)',
-                  border: 0,
-                  background: 'color-mix(in srgb, var(--color-bg) 85%, transparent)',
-                  color: 'var(--color-text)',
-                  cursor: 'pointer',
-                  display: 'grid',
-                  placeItems: 'center',
-                  fontSize: 12,
-                }}
-              >
-                🗑
-              </button>
-            </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, justifyContent: 'center', padding: '4px 2px 2px' }}>
             <span

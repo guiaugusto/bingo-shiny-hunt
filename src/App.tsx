@@ -45,7 +45,6 @@ export default function App() {
         onTitleChange={setTitle}
         onDescriptionChange={setDescription}
         onEdit={setPickerIndex}
-        onClear={clearCell}
       />
 
       {pickerIndex !== null && (

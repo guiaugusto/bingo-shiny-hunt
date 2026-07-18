@@ -150,19 +150,6 @@ button {
   outline: none;
 }
 
-.sbm-cell-tools {
-  opacity: 0;
-  transition: opacity 0.15s;
-}
-@media (hover: hover) and (pointer: fine) {
-  .sbm-cell:hover .sbm-cell-tools {
-    opacity: 1;
-  }
-}
-.sbm-cell-tools.sbm-tools-revealed {
-  opacity: 1;
-}
-
 .sbm-res:hover {
   background: color-mix(in srgb, var(--color-accent) 12%, transparent);
 }

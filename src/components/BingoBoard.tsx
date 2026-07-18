@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import type { Bingo, Cell as CellType } from '../types';
 import CellComponent from './Cell';
 
@@ -7,32 +6,9 @@ interface BingoBoardProps {
   onTitleChange: (t: string) => void;
   onDescriptionChange: (d: string) => void;
   onEdit: (i: number) => void;
-  onClear: (i: number) => void;
 }
 
-export default function BingoBoard({
-  bingo,
-  onTitleChange,
-  onDescriptionChange,
-  onEdit,
-  onClear,
-}: BingoBoardProps) {
-  const [revealedIdx, setRevealedIdx] = useState<number | null>(null);
-  const lpTimer = useState<{ current: ReturnType<typeof setTimeout> | null }>({ current: null })[0];
-  const lpHideTimer = useState<{ current: ReturnType<typeof setTimeout> | null }>({ current: null })[0];
-
-  const startLongPress = (i: number) => {
-    if (lpTimer.current) clearTimeout(lpTimer.current);
-    lpTimer.current = setTimeout(() => {
-      setRevealedIdx(i);
-      if (lpHideTimer.current) clearTimeout(lpHideTimer.current);
-      lpHideTimer.current = setTimeout(() => setRevealedIdx((cur) => (cur === i ? null : cur)), 3000);
-    }, 450);
-  };
-  const cancelLongPress = () => {
-    if (lpTimer.current) clearTimeout(lpTimer.current);
-  };
-
+export default function BingoBoard({ bingo, onTitleChange, onDescriptionChange, onEdit }: BingoBoardProps) {
   const total = bingo.cells.filter((c: CellType) => c.key).length;
   const caught = bingo.cells.filter((c: CellType) => c.key && c.caught).length;
   const pct = total ? Math.round((caught / total) * 100) : 0;
@@ -119,7 +95,7 @@ export default function BingoBoard({
         </div>
       </div>
 
-      <div style={{ width: '100%', maxWidth: wrapMax, overflowX: 'auto' }}>
+      <div style={{ width: '100%', maxWidth: wrapMax, overflowX: 'auto', padding: 4 }}>
         <div
           style={{
             display: 'grid',
@@ -130,16 +106,7 @@ export default function BingoBoard({
           }}
         >
           {bingo.cells.map((cell, i) => (
-            <CellComponent
-              key={i}
-              cell={cell}
-              index={i}
-              revealed={revealedIdx === i}
-              onEdit={onEdit}
-              onClear={onClear}
-              onLongPressStart={startLongPress}
-              onLongPressEnd={cancelLongPress}
-            />
+            <CellComponent key={i} cell={cell} index={i} onEdit={onEdit} />
           ))}
         </div>
       </div>
