@@ -7,8 +7,10 @@ import BingoBoard from './components/BingoBoard';
 import PickerDialog from './components/PickerDialog';
 import Toast from './components/Toast';
 import { exportPNG, exportSVG } from './lib/exportImage';
+import { useI18n } from './i18n/I18nContext';
 
 export default function App() {
+  const { t } = useI18n();
   const {
     bingos,
     active,
@@ -36,8 +38,8 @@ export default function App() {
         size={active.size}
         onSizeChange={setSize}
         onClearBoard={clearBoard}
-        onExportPNG={() => exportPNG(active)}
-        onExportSVG={() => exportSVG(active)}
+        onExportPNG={() => exportPNG(active, { untitled: t.exportUntitled, caughtOf: t.exportCaughtOf })}
+        onExportSVG={() => exportSVG(active, { untitled: t.exportUntitled, caughtOf: t.exportCaughtOf })}
       />
       <BingoRail bingos={bingos} activeId={activeId} onSelect={selectBingo} onDelete={deleteBingo} onAdd={addBingo} />
       <BingoBoard

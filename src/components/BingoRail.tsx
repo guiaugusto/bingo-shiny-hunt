@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import type { Bingo } from '../types';
 import { MAX_BINGOS } from '../constants';
+import { useI18n } from '../i18n/I18nContext';
 
 interface BingoRailProps {
   bingos: Bingo[];
@@ -11,6 +12,7 @@ interface BingoRailProps {
 }
 
 export default function BingoRail({ bingos, activeId, onSelect, onDelete, onAdd }: BingoRailProps) {
+  const { t } = useI18n();
   const railRef = useRef<HTMLDivElement>(null);
 
   const scroll = (dir: number) => {
@@ -28,7 +30,7 @@ export default function BingoRail({ bingos, activeId, onSelect, onDelete, onAdd 
         borderBottom: '1px solid var(--color-divider)',
       }}
     >
-      <button className="btn btn-icon btn-secondary" onClick={() => scroll(-1)} aria-label="Previous">
+      <button className="btn btn-icon btn-secondary" onClick={() => scroll(-1)} aria-label={t.previous}>
         ‹
       </button>
       <div
@@ -68,14 +70,14 @@ export default function BingoRail({ bingos, activeId, onSelect, onDelete, onAdd 
                     textOverflow: 'ellipsis',
                   }}
                 >
-                  {b.title || 'Untitled'}
+                  {b.title || t.untitled}
                 </span>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     onDelete(b.id);
                   }}
-                  aria-label="Delete"
+                  aria-label={t.deleteBoard}
                   style={{
                     border: 0,
                     background: 'transparent',
@@ -132,6 +134,7 @@ export default function BingoRail({ bingos, activeId, onSelect, onDelete, onAdd 
         {bingos.length < MAX_BINGOS && (
           <button
             onClick={onAdd}
+            aria-label={t.addBoard}
             style={{
               flex: 'none',
               width: 54,
@@ -159,7 +162,7 @@ export default function BingoRail({ bingos, activeId, onSelect, onDelete, onAdd 
       >
         {bingos.length}/{MAX_BINGOS}
       </span>
-      <button className="btn btn-icon btn-secondary" onClick={() => scroll(1)} aria-label="Next">
+      <button className="btn btn-icon btn-secondary" onClick={() => scroll(1)} aria-label={t.next}>
         ›
       </button>
     </section>

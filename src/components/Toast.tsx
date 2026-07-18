@@ -1,8 +1,12 @@
+import { useI18n } from '../i18n/I18nContext';
+
 interface ToastProps {
   onUndo: () => void;
 }
 
 export default function Toast({ onUndo }: ToastProps) {
+  const { t } = useI18n();
+
   return (
     <div
       style={{
@@ -21,9 +25,9 @@ export default function Toast({ onUndo }: ToastProps) {
         boxShadow: 'var(--shadow-lg)',
       }}
     >
-      <span style={{ fontSize: 13 }}>Board cleared.</span>
+      <span style={{ fontSize: 13 }}>{t.boardCleared}</span>
       <button className="btn btn-secondary" onClick={onUndo}>
-        Undo
+        {t.undo}
       </button>
     </div>
   );

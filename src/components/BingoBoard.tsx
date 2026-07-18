@@ -1,5 +1,6 @@
 import type { Bingo, Cell as CellType } from '../types';
 import CellComponent from './Cell';
+import { useI18n } from '../i18n/I18nContext';
 
 interface BingoBoardProps {
   bingo: Bingo;
@@ -9,6 +10,7 @@ interface BingoBoardProps {
 }
 
 export default function BingoBoard({ bingo, onTitleChange, onDescriptionChange, onEdit }: BingoBoardProps) {
+  const { t } = useI18n();
   const total = bingo.cells.filter((c: CellType) => c.key).length;
   const caught = bingo.cells.filter((c: CellType) => c.key && c.caught).length;
   const pct = total ? Math.round((caught / total) * 100) : 0;
@@ -40,7 +42,7 @@ export default function BingoBoard({ bingo, onTitleChange, onDescriptionChange, 
           className="sbm-flat"
           value={bingo.title}
           onChange={(e) => onTitleChange(e.target.value)}
-          placeholder="Bingo title"
+          placeholder={t.titlePlaceholder}
           style={{
             fontFamily: 'var(--font-heading)',
             fontWeight: 500,
@@ -56,7 +58,7 @@ export default function BingoBoard({ bingo, onTitleChange, onDescriptionChange, 
           className="sbm-flat"
           value={bingo.description}
           onChange={(e) => onDescriptionChange(e.target.value)}
-          placeholder="Add a description (theme, rules, target region…)"
+          placeholder={t.descriptionPlaceholder}
           rows={1}
           style={{
             fontSize: 14,
@@ -90,7 +92,7 @@ export default function BingoBoard({ bingo, onTitleChange, onDescriptionChange, 
             />
           </div>
           <span style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 60%, transparent)', whiteSpace: 'nowrap', flex: 'none' }}>
-            {caught}/{total} caught
+            {t.caughtCount(caught, total)}
           </span>
         </div>
       </div>

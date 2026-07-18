@@ -2,6 +2,11 @@ import type { Bingo, Cell } from '../types';
 import { GAME_MAP, CAUGHT_COLOR } from '../constants';
 import { spriteUrl } from './dex';
 
+export interface ExportLabels {
+  untitled: string;
+  caughtOf: (caught: number, total: number) => string;
+}
+
 interface Layout {
   P: number;
   cell: number;
@@ -56,14 +61,20 @@ async function prepImages(cells: Cell[]): Promise<Record<string, HTMLImageElemen
   return map;
 }
 
-function paint(ctx: CanvasRenderingContext2D, b: Bingo, L: Layout, imgs: Record<string, HTMLImageElement | null>) {
+function paint(
+  ctx: CanvasRenderingContext2D,
+  b: Bingo,
+  L: Layout,
+  imgs: Record<string, HTMLImageElement | null>,
+  labels: ExportLabels,
+) {
   const { P, cell, gap, gridTop } = L;
   ctx.fillStyle = '#161826';
   ctx.fillRect(0, 0, L.W, L.H);
   ctx.textBaseline = 'alphabetic';
   ctx.fillStyle = '#e9e9ed';
   ctx.font = '600 40px Inter, system-ui, sans-serif';
-  ctx.fillText(b.title || 'Shiny Bingo', P, P + 40);
+  ctx.fillText(b.title || labels.untitled, P, P + 40);
   if (b.description) {
     ctx.fillStyle = 'rgba(233,233,237,0.62)';
     ctx.font = '400 20px Inter, system-ui, sans-serif';
@@ -73,7 +84,7 @@ function paint(ctx: CanvasRenderingContext2D, b: Bingo, L: Layout, imgs: Record<
   const total = b.cells.filter((c) => c.key).length;
   ctx.fillStyle = '#9184d9';
   ctx.font = '600 18px Inter, system-ui, sans-serif';
-  ctx.fillText(`${caught} / ${total} caught`, P, gridTop - 20);
+  ctx.fillText(labels.caughtOf(caught, total), P, gridTop - 20);
 
   for (let i = 0; i < b.cells.length; i++) {
     const c = b.cells[i];
@@ -152,7 +163,7 @@ function download(blob: Blob, name: string) {
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
-export async function exportPNG(b: Bingo): Promise<void> {
+export async function exportPNG(b: Bingo, labels: ExportLabels): Promise<void> {
   const L = layoutFor(b);
   const scale = 2;
   const canvas = document.createElement('canvas');
@@ -161,13 +172,13 @@ export async function exportPNG(b: Bingo): Promise<void> {
   const ctx = canvas.getContext('2d')!;
   ctx.scale(scale, scale);
   const imgs = await prepImages(b.cells);
-  paint(ctx, b, L, imgs);
+  paint(ctx, b, L, imgs, labels);
   canvas.toBlob((blob) => {
     if (blob) download(blob, `${slug(b)}.png`);
   }, 'image/png');
 }
 
-export async function exportSVG(b: Bingo): Promise<void> {
+export async function exportSVG(b: Bingo, labels: ExportLabels): Promise<void> {
   const L = layoutFor(b);
   const imgs = await prepImages(b.cells);
   const data: Record<string, string> = {};
@@ -189,13 +200,13 @@ export async function exportSVG(b: Bingo): Promise<void> {
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${L.W}" height="${L.H}" viewBox="0 0 ${L.W} ${L.H}" font-family="Inter, system-ui, sans-serif">`;
   s += `<defs><filter id="uncaught" x="-20%" y="-20%" width="140%" height="140%"><feColorMatrix type="saturate" values="0.1"/></filter></defs>`;
   s += `<rect width="100%" height="100%" fill="#161826"/>`;
-  s += `<text x="${P}" y="${P + 40}" fill="#e9e9ed" font-size="40" font-weight="600">${esc(b.title || 'Shiny Bingo')}</text>`;
+  s += `<text x="${P}" y="${P + 40}" fill="#e9e9ed" font-size="40" font-weight="600">${esc(b.title || labels.untitled)}</text>`;
   if (b.description) {
     s += `<text x="${P}" y="${P + 74}" fill="#e9e9ed" fill-opacity="0.62" font-size="20">${esc(b.description.slice(0, 90))}</text>`;
   }
   const caught = b.cells.filter((c) => c.key && c.caught).length;
   const total = b.cells.filter((c) => c.key).length;
-  s += `<text x="${P}" y="${gridTop - 20}" fill="#9184d9" font-size="18" font-weight="600">${caught} / ${total} caught</text>`;
+  s += `<text x="${P}" y="${gridTop - 20}" fill="#9184d9" font-size="18" font-weight="600">${esc(labels.caughtOf(caught, total))}</text>`;
 
   for (let i = 0; i < b.cells.length; i++) {
     const c = b.cells[i];

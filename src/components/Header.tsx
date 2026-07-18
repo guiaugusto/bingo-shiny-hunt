@@ -1,4 +1,6 @@
 import { SIZES } from '../constants';
+import { useI18n } from '../i18n/I18nContext';
+import LanguageToggle from './LanguageToggle';
 
 interface HeaderProps {
   size: number;
@@ -9,6 +11,8 @@ interface HeaderProps {
 }
 
 export default function Header({ size, onSizeChange, onClearBoard, onExportPNG, onExportSVG }: HeaderProps) {
+  const { t } = useI18n();
+
   return (
     <header
       style={{
@@ -56,8 +60,10 @@ export default function Header({ size, onSizeChange, onClearBoard, onExportPNG, 
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+        <LanguageToggle />
+
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <label style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 60%, transparent)' }}>Grid</label>
+          <label style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 60%, transparent)' }}>{t.grid}</label>
           <select
             className="input"
             value={size}
@@ -74,7 +80,7 @@ export default function Header({ size, onSizeChange, onClearBoard, onExportPNG, 
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
           <button className="btn btn-ghost" onClick={onClearBoard}>
-            Clear board
+            {t.clearBoard}
           </button>
           <button className="btn btn-secondary" onClick={onExportPNG}>
             PNG

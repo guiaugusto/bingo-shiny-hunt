@@ -2,10 +2,12 @@ import { useCallback, useRef, useState } from 'react';
 import type { Bingo, Cell } from '../types';
 import { MAX_BINGOS } from '../constants';
 import { emptyCells, loadData, newBingo, saveData } from '../lib/storage';
+import { useI18n } from '../i18n/I18nContext';
 
 export function useBingoStore() {
-  const [bingos, setBingos] = useState<Bingo[]>(() => loadData().bingos);
-  const [activeId, setActiveId] = useState<string>(() => loadData().activeId);
+  const { t } = useI18n();
+  const [bingos, setBingos] = useState<Bingo[]>(() => loadData(t.defaultBingoTitle).bingos);
+  const [activeId, setActiveId] = useState<string>(() => loadData(t.defaultBingoTitle).activeId);
   const [undoSnapshot, setUndoSnapshot] = useState<{ id: string; cells: Cell[] } | null>(null);
   const undoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -29,13 +31,13 @@ export function useBingoStore() {
   const addBingo = useCallback(() => {
     setBingos((prev) => {
       if (prev.length >= MAX_BINGOS) return prev;
-      const b = newBingo(`Bingo ${prev.length + 1}`, active?.size || 5);
+      const b = newBingo(t.bingoNumbered(prev.length + 1), active?.size || 5);
       const next = [...prev, b];
       persist(next, b.id);
       setActiveId(b.id);
       return next;
     });
-  }, [active, persist]);
+  }, [active, persist, t]);
 
   const selectBingo = useCallback(
     (id: string) => {
@@ -48,16 +50,16 @@ export function useBingoStore() {
   const deleteBingo = useCallback(
     (id: string) => {
       setBingos((prev) => {
-        if (prev.length <= 1 && !window.confirm('Delete this bingo? At least one card is kept.')) return prev;
+        if (prev.length <= 1 && !window.confirm(t.confirmDeleteBingo)) return prev;
         let next = prev.filter((b) => b.id !== id);
-        if (!next.length) next = [newBingo('My Shiny Bingo', 5)];
+        if (!next.length) next = [newBingo(t.defaultBingoTitle, 5)];
         const nextActive = activeId === id ? next[0].id : activeId;
         persist(next, nextActive);
         setActiveId(nextActive);
         return next;
       });
     },
-    [activeId, persist],
+    [activeId, persist, t],
   );
 
   const setSize = useCallback(

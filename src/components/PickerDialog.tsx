@@ -3,6 +3,7 @@ import type { Cell, PendingPick } from '../types';
 import { GAME_DATA, GAME_SUFFIX, CAUGHT_COLOR } from '../constants';
 import { spriteUrl } from '../lib/dex';
 import { useDex } from '../hooks/useDex';
+import { useI18n } from '../i18n/I18nContext';
 
 interface PickerDialogProps {
   initialCell: Cell;
@@ -12,6 +13,7 @@ interface PickerDialogProps {
 }
 
 export default function PickerDialog({ initialCell, onCancel, onConfirm, onRemove }: PickerDialogProps) {
+  const { t } = useI18n();
   const { ensureDexFiles, filesForGame, getDex, loading } = useDex();
   const [game, setGame] = useState(initialCell.game || '');
   const [query, setQuery] = useState('');
@@ -77,12 +79,12 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm, onRemov
   }, [poolAll, q]);
 
   const dexStatus = loading
-    ? 'Loading Pokédex…'
+    ? t.loadingDex
     : !poolAll.length
-      ? 'Pokédex unavailable — check your connection.'
+      ? t.dexUnavailable
       : q
-        ? `${filtered.length} result${filtered.length === 1 ? '' : 's'}`
-        : `${poolAll.length} Pokémon in this game · type to search`;
+        ? t.resultsCount(filtered.length)
+        : t.dexHint(poolAll.length);
 
   const confirm = () => {
     if (!pending) return;
@@ -97,8 +99,8 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm, onRemov
         style={{ width: 'min(520px, 100%)', maxHeight: '82vh' }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span className="dialog-title">Choose a Pokémon</span>
-          <button className="btn btn-icon btn-ghost" onClick={onCancel} aria-label="Close">
+          <span className="dialog-title">{t.choosePokemon}</span>
+          <button className="btn btn-icon btn-ghost" onClick={onCancel} aria-label={t.close}>
             ✕
           </button>
         </div>
@@ -112,12 +114,12 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm, onRemov
               color: 'color-mix(in srgb, var(--color-text) 55%, transparent)',
             }}
           >
-            Game
+            {t.game}
           </label>
           <select className="input" value={game} onChange={(e) => handleGameChange(e.target.value)} style={{ width: '100%', cursor: 'pointer' }}>
             {GAME_DATA.map((g) => (
               <option key={g.id} value={g.id}>
-                {g.label}
+                {g.id === '' ? t.noGame : g.label}
               </option>
             ))}
           </select>
@@ -130,12 +132,12 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm, onRemov
             onChange={(e) => toggleRandom(e.target.checked)}
             style={{ width: 16, height: 16, accentColor: 'var(--color-accent)', cursor: 'pointer' }}
           />
-          Pick a random Pokémon from this game
+          {t.randomPick}
         </label>
 
         {random && (
           <button className="btn btn-secondary" onClick={rollRandom} style={{ alignSelf: 'flex-start' }}>
-            🔀 Roll another
+            {t.rollAnother}
           </button>
         )}
 
@@ -147,7 +149,7 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm, onRemov
                   className="input"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search by name… (e.g. typhlosion-hisui)"
+                  placeholder={t.searchPlaceholder}
                   autoFocus
                   style={{ width: '100%' }}
                 />
@@ -242,12 +244,12 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm, onRemov
                     color: caught ? CAUGHT_COLOR : undefined,
                   }}
                 >
-                  {caught ? '✓ Caught' : 'Mark as caught'}
+                  {caught ? t.caughtLabel : t.markCaught}
                 </button>
               </>
             ) : (
               <span style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 50%, transparent)', flex: 1 }}>
-                Pick a Pokémon above.
+                {t.pickAbove}
               </span>
             )}
           </div>
@@ -258,17 +260,17 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm, onRemov
                 onClick={onRemove}
                 style={{ color: '#f87171' }}
               >
-                🗑 Remove
+                {t.remove}
               </button>
             ) : (
               <span />
             )}
             <div style={{ display: 'flex', gap: 10 }}>
               <button className="btn btn-ghost" onClick={onCancel}>
-                Cancel
+                {t.cancel}
               </button>
               <button className="btn btn-primary" onClick={confirm} disabled={!pending}>
-                Add
+                {t.add}
               </button>
             </div>
           </div>
