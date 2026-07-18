@@ -270,7 +270,7 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm, onRemov
                 {t.cancel}
               </button>
               <button className="btn btn-primary" onClick={confirm} disabled={!pending}>
-                {t.add}
+                {initialCell.key ? t.update : t.add}
               </button>
             </div>
           </div>

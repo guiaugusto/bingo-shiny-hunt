@@ -31,6 +31,7 @@ interface Dictionary {
   remove: string;
   cancel: string;
   add: string;
+  update: string;
   boardCleared: string;
   undo: string;
   exportUntitled: string;
@@ -73,6 +74,7 @@ export const translations: Record<Lang, Dictionary> = {
     remove: '🗑 Remove',
     cancel: 'Cancel',
     add: 'Add',
+    update: 'Update',
     boardCleared: 'Board cleared.',
     undo: 'Undo',
     exportUntitled: 'Shiny Bingo',
@@ -116,6 +118,7 @@ export const translations: Record<Lang, Dictionary> = {
     remove: '🗑 Remover',
     cancel: 'Cancelar',
     add: 'Adicionar',
+    update: 'Atualizar',
     boardCleared: 'Cartela limpa.',
     undo: 'Desfazer',
     exportUntitled: 'Bingo Shiny',
