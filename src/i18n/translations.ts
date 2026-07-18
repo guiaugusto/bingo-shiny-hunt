@@ -14,8 +14,6 @@ interface Dictionary {
   deleteBoard: string;
   addBoard: string;
   confirmDeleteBingo: string;
-  defaultBingoTitle: string;
-  bingoNumbered: (n: number) => string;
   choosePokemon: string;
   close: string;
   game: string;
@@ -52,8 +50,6 @@ export const translations: Record<Lang, Dictionary> = {
     deleteBoard: 'Delete',
     addBoard: 'Add board',
     confirmDeleteBingo: 'Delete this bingo? At least one card is kept.',
-    defaultBingoTitle: 'My Shiny Bingo',
-    bingoNumbered: (n) => `Bingo ${n}`,
     choosePokemon: 'Choose a Pokémon',
     close: 'Close',
     game: 'Game',
@@ -88,8 +84,6 @@ export const translations: Record<Lang, Dictionary> = {
     deleteBoard: 'Excluir',
     addBoard: 'Adicionar cartela',
     confirmDeleteBingo: 'Excluir este bingo? Pelo menos uma cartela é mantida.',
-    defaultBingoTitle: 'Meu Bingo Shiny',
-    bingoNumbered: (n) => `Bingo ${n}`,
     choosePokemon: 'Escolha um Pokémon',
     close: 'Fechar',
     game: 'Jogo',

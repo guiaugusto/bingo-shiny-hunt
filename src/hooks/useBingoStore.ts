@@ -6,8 +6,8 @@ import { useI18n } from '../i18n/I18nContext';
 
 export function useBingoStore() {
   const { t } = useI18n();
-  const [bingos, setBingos] = useState<Bingo[]>(() => loadData(t.defaultBingoTitle).bingos);
-  const [activeId, setActiveId] = useState<string>(() => loadData(t.defaultBingoTitle).activeId);
+  const [bingos, setBingos] = useState<Bingo[]>(() => loadData().bingos);
+  const [activeId, setActiveId] = useState<string>(() => loadData().activeId);
   const [undoSnapshot, setUndoSnapshot] = useState<{ id: string; cells: Cell[] } | null>(null);
   const undoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -31,13 +31,13 @@ export function useBingoStore() {
   const addBingo = useCallback(() => {
     setBingos((prev) => {
       if (prev.length >= MAX_BINGOS) return prev;
-      const b = newBingo(t.bingoNumbered(prev.length + 1), active?.size || 5);
+      const b = newBingo('', active?.size || 5);
       const next = [...prev, b];
       persist(next, b.id);
       setActiveId(b.id);
       return next;
     });
-  }, [active, persist, t]);
+  }, [active, persist]);
 
   const selectBingo = useCallback(
     (id: string) => {
@@ -52,7 +52,7 @@ export function useBingoStore() {
       setBingos((prev) => {
         if (prev.length <= 1 && !window.confirm(t.confirmDeleteBingo)) return prev;
         let next = prev.filter((b) => b.id !== id);
-        if (!next.length) next = [newBingo(t.defaultBingoTitle, 5)];
+        if (!next.length) next = [newBingo('', 5)];
         const nextActive = activeId === id ? next[0].id : activeId;
         persist(next, nextActive);
         setActiveId(nextActive);

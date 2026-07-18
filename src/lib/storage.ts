@@ -26,8 +26,8 @@ export function newBingo(title: string, size: number): Bingo {
   };
 }
 
-function defaultData(defaultTitle: string): StoredData {
-  const first = newBingo(defaultTitle, 5);
+function defaultData(): StoredData {
+  const first = newBingo('', 5);
   return { bingos: [first], activeId: first.id };
 }
 
@@ -42,19 +42,19 @@ function sanitizeBingo(b: Bingo): Bingo {
   return { ...b, cells };
 }
 
-export function loadData(defaultTitle: string): StoredData {
+export function loadData(): StoredData {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return defaultData(defaultTitle);
+    if (!raw) return defaultData();
     const parsed = JSON.parse(raw) as StoredData;
-    if (!parsed.bingos || !parsed.bingos.length) return defaultData(defaultTitle);
+    if (!parsed.bingos || !parsed.bingos.length) return defaultData();
     parsed.bingos = parsed.bingos.map(sanitizeBingo);
     if (!parsed.bingos.some((b) => b.id === parsed.activeId)) {
       parsed.activeId = parsed.bingos[0].id;
     }
     return parsed;
   } catch {
-    return defaultData(defaultTitle);
+    return defaultData();
   }
 }
 
