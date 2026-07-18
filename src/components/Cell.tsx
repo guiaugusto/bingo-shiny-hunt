@@ -28,7 +28,7 @@ export default function Cell({ cell, index, onEdit }: CellProps) {
         cursor: 'pointer',
         overflow: 'hidden',
         padding: 4,
-        background: 'var(--color-surface)',
+        background: 'color-mix(in srgb, var(--color-text) 7%, transparent)',
         boxShadow: has && cell.caught ? `0 0 0 2px ${CAUGHT_COLOR}` : '0 0 0 1px var(--color-neutral-800)',
         transition: 'box-shadow 0.12s',
       }}
