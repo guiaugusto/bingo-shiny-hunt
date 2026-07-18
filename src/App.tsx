@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import type { Cell } from './types';
 import { useBingoStore } from './hooks/useBingoStore';
 import Header from './components/Header';
@@ -26,9 +26,28 @@ export default function App() {
     clearBoard,
     undoClear,
     hasUndo,
+    exportBingos,
+    importBingos,
   } = useBingoStore();
 
   const [pickerIndex, setPickerIndex] = useState<number | null>(null);
+  const [importMessage, setImportMessage] = useState<string | null>(null);
+  const importMsgTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleImport = async (file: File) => {
+    const result = await importBingos(file);
+    if (result.error) {
+      window.alert(t.importInvalidFile);
+      return;
+    }
+    if (!result.imported) {
+      window.alert(result.skipped > 0 ? t.importNoRoom : t.importNothingValid);
+      return;
+    }
+    setImportMessage(t.importSummary(result.imported, result.skipped));
+    if (importMsgTimer.current) clearTimeout(importMsgTimer.current);
+    importMsgTimer.current = setTimeout(() => setImportMessage(null), 6000);
+  };
 
   if (!active) return null;
 
@@ -41,7 +60,15 @@ export default function App() {
         onExportPNG={() => exportPNG(active, { untitled: t.exportUntitled, caughtOf: t.exportCaughtOf })}
         onExportSVG={() => exportSVG(active, { untitled: t.exportUntitled, caughtOf: t.exportCaughtOf })}
       />
-      <BingoRail bingos={bingos} activeId={activeId} onSelect={selectBingo} onDelete={deleteBingo} onAdd={addBingo} />
+      <BingoRail
+        bingos={bingos}
+        activeId={activeId}
+        onSelect={selectBingo}
+        onDelete={deleteBingo}
+        onAdd={addBingo}
+        onExport={exportBingos}
+        onImport={handleImport}
+      />
       <BingoBoard
         bingo={active}
         onTitleChange={setTitle}
@@ -64,7 +91,11 @@ export default function App() {
         />
       )}
 
-      {hasUndo && <Toast onUndo={undoClear} />}
+      {hasUndo ? (
+        <Toast message={t.boardCleared} actionLabel={t.undo} onAction={undoClear} />
+      ) : (
+        importMessage && <Toast message={importMessage} />
+      )}
     </div>
   );
 }

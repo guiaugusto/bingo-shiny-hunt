@@ -35,6 +35,12 @@ interface Dictionary {
   undo: string;
   exportUntitled: string;
   exportCaughtOf: (caught: number, total: number) => string;
+  exportData: string;
+  importData: string;
+  importSummary: (imported: number, skipped: number) => string;
+  importInvalidFile: string;
+  importNothingValid: string;
+  importNoRoom: string;
 }
 
 export const translations: Record<Lang, Dictionary> = {
@@ -71,6 +77,15 @@ export const translations: Record<Lang, Dictionary> = {
     undo: 'Undo',
     exportUntitled: 'Shiny Bingo',
     exportCaughtOf: (caught, total) => `${caught} / ${total} caught`,
+    exportData: 'Export boards',
+    importData: 'Import boards',
+    importSummary: (imported, skipped) =>
+      skipped > 0
+        ? `Imported ${imported} board${imported === 1 ? '' : 's'}, ${skipped} skipped (board limit reached).`
+        : `Imported ${imported} board${imported === 1 ? '' : 's'}.`,
+    importInvalidFile: "Could not read that file — make sure it's a valid Bingo Shiny Hunt export.",
+    importNothingValid: 'No valid boards were found in that file.',
+    importNoRoom: 'Board limit reached — delete a board before importing more.',
   },
   'pt-BR': {
     grid: 'Grade',
@@ -105,6 +120,15 @@ export const translations: Record<Lang, Dictionary> = {
     undo: 'Desfazer',
     exportUntitled: 'Bingo Shiny',
     exportCaughtOf: (caught, total) => `${caught} / ${total} capturados`,
+    exportData: 'Exportar cartelas',
+    importData: 'Importar cartelas',
+    importSummary: (imported, skipped) =>
+      skipped > 0
+        ? `${imported} cartela${imported === 1 ? '' : 's'} importada${imported === 1 ? '' : 's'}, ${skipped} ignorada${skipped === 1 ? '' : 's'} (limite de cartelas atingido).`
+        : `${imported} cartela${imported === 1 ? '' : 's'} importada${imported === 1 ? '' : 's'}.`,
+    importInvalidFile: 'Não foi possível ler esse arquivo — confirme se é uma exportação válida do Bingo Shiny Hunt.',
+    importNothingValid: 'Nenhuma cartela válida foi encontrada nesse arquivo.',
+    importNoRoom: 'Limite de cartelas atingido — exclua uma cartela antes de importar mais.',
   },
 };
 

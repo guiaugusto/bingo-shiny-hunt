@@ -1,6 +1,7 @@
 import type { Bingo, Cell } from '../types';
 import { GAME_MAP, CAUGHT_COLOR } from '../constants';
 import { spriteUrl } from './dex';
+import { downloadBlob } from './download';
 
 export interface ExportLabels {
   untitled: string;
@@ -152,17 +153,6 @@ function slug(b: Bingo): string {
   );
 }
 
-function download(blob: Blob, name: string) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = name;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 2000);
-}
-
 export async function exportPNG(b: Bingo, labels: ExportLabels): Promise<void> {
   const L = layoutFor(b);
   const scale = 2;
@@ -174,7 +164,7 @@ export async function exportPNG(b: Bingo, labels: ExportLabels): Promise<void> {
   const imgs = await prepImages(b.cells);
   paint(ctx, b, L, imgs, labels);
   canvas.toBlob((blob) => {
-    if (blob) download(blob, `${slug(b)}.png`);
+    if (blob) downloadBlob(blob, `${slug(b)}.png`);
   }, 'image/png');
 }
 
@@ -236,5 +226,5 @@ export async function exportSVG(b: Bingo, labels: ExportLabels): Promise<void> {
     }
   }
   s += '</svg>';
-  download(new Blob([s], { type: 'image/svg+xml' }), `${slug(b)}.svg`);
+  downloadBlob(new Blob([s], { type: 'image/svg+xml' }), `${slug(b)}.svg`);
 }

@@ -1,12 +1,10 @@
-import { useI18n } from '../i18n/I18nContext';
-
 interface ToastProps {
-  onUndo: () => void;
+  message: string;
+  actionLabel?: string;
+  onAction?: () => void;
 }
 
-export default function Toast({ onUndo }: ToastProps) {
-  const { t } = useI18n();
-
+export default function Toast({ message, actionLabel, onAction }: ToastProps) {
   return (
     <div
       style={{
@@ -25,10 +23,12 @@ export default function Toast({ onUndo }: ToastProps) {
         boxShadow: 'var(--shadow-lg)',
       }}
     >
-      <span style={{ fontSize: 13 }}>{t.boardCleared}</span>
-      <button className="btn btn-secondary" onClick={onUndo}>
-        {t.undo}
-      </button>
+      <span style={{ fontSize: 13 }}>{message}</span>
+      {actionLabel && onAction && (
+        <button className="btn btn-secondary" onClick={onAction}>
+          {actionLabel}
+        </button>
+      )}
     </div>
   );
 }

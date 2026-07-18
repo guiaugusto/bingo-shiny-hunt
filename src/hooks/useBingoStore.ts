@@ -1,8 +1,16 @@
 import { useCallback, useRef, useState } from 'react';
 import type { Bingo, Cell } from '../types';
 import { MAX_BINGOS } from '../constants';
-import { emptyCells, loadData, newBingo, saveData } from '../lib/storage';
+import { buildExportPayload, emptyCells, loadData, newBingo, parseImportPayload, saveData } from '../lib/storage';
+import { downloadBlob } from '../lib/download';
 import { useI18n } from '../i18n/I18nContext';
+
+export interface ImportSummary {
+  imported: number;
+  skipped: number;
+  invalid: number;
+  error: boolean;
+}
 
 export function useBingoStore() {
   const { t } = useI18n();
@@ -129,6 +137,51 @@ export function useBingoStore() {
     }
   }, [undoSnapshot, activeId, persist]);
 
+  const exportBingos = useCallback(() => {
+    const payload = buildExportPayload(bingos);
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    downloadBlob(blob, `bingo-shiny-hunt-export-${new Date().toISOString().slice(0, 10)}.json`);
+  }, [bingos]);
+
+  const importBingos = useCallback(
+    async (file: File): Promise<ImportSummary> => {
+      let text: string;
+      try {
+        text = await file.text();
+      } catch {
+        return { imported: 0, skipped: 0, invalid: 0, error: true };
+      }
+
+      let parsed: { bingos: Bingo[]; invalidCount: number };
+      try {
+        parsed = parseImportPayload(text);
+      } catch {
+        return { imported: 0, skipped: 0, invalid: 0, error: true };
+      }
+
+      if (!parsed.bingos.length) {
+        return { imported: 0, skipped: 0, invalid: parsed.invalidCount, error: false };
+      }
+
+      let imported = 0;
+      let skipped = 0;
+      setBingos((prev) => {
+        const room = Math.max(0, MAX_BINGOS - prev.length);
+        const toAdd = parsed.bingos.slice(0, room);
+        imported = toAdd.length;
+        skipped = parsed.bingos.length - toAdd.length;
+        if (!toAdd.length) return prev;
+        const next = [...prev, ...toAdd];
+        persist(next, toAdd[0].id);
+        setActiveId(toAdd[0].id);
+        return next;
+      });
+
+      return { imported, skipped, invalid: parsed.invalidCount, error: false };
+    },
+    [persist],
+  );
+
   return {
     bingos,
     active,
@@ -144,5 +197,7 @@ export function useBingoStore() {
     clearBoard,
     undoClear,
     hasUndo: !!undoSnapshot,
+    exportBingos,
+    importBingos,
   };
 }

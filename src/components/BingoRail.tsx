@@ -9,11 +9,14 @@ interface BingoRailProps {
   onSelect: (id: string) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
+  onExport: () => void;
+  onImport: (file: File) => void;
 }
 
-export default function BingoRail({ bingos, activeId, onSelect, onDelete, onAdd }: BingoRailProps) {
+export default function BingoRail({ bingos, activeId, onSelect, onDelete, onAdd, onExport, onImport }: BingoRailProps) {
   const { t } = useI18n();
   const railRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const scroll = (dir: number) => {
     const r = railRef.current;
@@ -165,6 +168,28 @@ export default function BingoRail({ bingos, activeId, onSelect, onDelete, onAdd 
       <button className="btn btn-icon btn-secondary" onClick={() => scroll(1)} aria-label={t.next}>
         ›
       </button>
+      <button className="btn btn-icon btn-secondary" onClick={onExport} aria-label={t.exportData} title={t.exportData}>
+        ⬇
+      </button>
+      <button
+        className="btn btn-icon btn-secondary"
+        onClick={() => fileInputRef.current?.click()}
+        aria-label={t.importData}
+        title={t.importData}
+      >
+        ⬆
+      </button>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="application/json,.json"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          e.target.value = '';
+          if (file) onImport(file);
+        }}
+        style={{ display: 'none' }}
+      />
     </section>
   );
 }
