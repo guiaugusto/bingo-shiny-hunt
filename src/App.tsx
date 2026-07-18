@@ -56,6 +56,10 @@ export default function App() {
             setCell(pickerIndex, cell);
             setPickerIndex(null);
           }}
+          onRemove={() => {
+            clearCell(pickerIndex);
+            setPickerIndex(null);
+          }}
         />
       )}
 

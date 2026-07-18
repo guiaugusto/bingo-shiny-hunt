@@ -8,9 +8,10 @@ interface PickerDialogProps {
   initialCell: Cell;
   onCancel: () => void;
   onConfirm: (cell: Cell) => void;
+  onRemove?: () => void;
 }
 
-export default function PickerDialog({ initialCell, onCancel, onConfirm }: PickerDialogProps) {
+export default function PickerDialog({ initialCell, onCancel, onConfirm, onRemove }: PickerDialogProps) {
   const { ensureDexFiles, filesForGame, getDex, loading } = useDex();
   const [game, setGame] = useState(initialCell.game || '');
   const [query, setQuery] = useState('');
@@ -250,13 +251,26 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm }: Picke
               </span>
             )}
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
-            <button className="btn btn-ghost" onClick={onCancel}>
-              Cancel
-            </button>
-            <button className="btn btn-primary" onClick={confirm} disabled={!pending}>
-              Add
-            </button>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+            {initialCell.key ? (
+              <button
+                className="btn btn-ghost"
+                onClick={onRemove}
+                style={{ color: '#f87171' }}
+              >
+                🗑 Remove
+              </button>
+            ) : (
+              <span />
+            )}
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button className="btn btn-ghost" onClick={onCancel}>
+                Cancel
+              </button>
+              <button className="btn btn-primary" onClick={confirm} disabled={!pending}>
+                Add
+              </button>
+            </div>
           </div>
         </div>
       </div>
