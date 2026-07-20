@@ -3,6 +3,7 @@ export type Lang = 'en' | 'pt-BR';
 export const LANG_STORAGE_KEY = 'bsh:lang:v1';
 
 interface Dictionary {
+  menu: string;
   grid: string;
   clearBoard: string;
   titlePlaceholder: string;
@@ -46,6 +47,7 @@ interface Dictionary {
 
 export const translations: Record<Lang, Dictionary> = {
   en: {
+    menu: 'Menu',
     grid: 'Grid',
     clearBoard: 'Clear board',
     titlePlaceholder: 'Bingo title',
@@ -90,6 +92,7 @@ export const translations: Record<Lang, Dictionary> = {
     importNoRoom: 'Board limit reached — delete a board before importing more.',
   },
   'pt-BR': {
+    menu: 'Menu',
     grid: 'Grade',
     clearBoard: 'Limpar cartela',
     titlePlaceholder: 'Título do bingo',

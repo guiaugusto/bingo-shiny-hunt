@@ -156,3 +156,43 @@ button {
 .sbm-chip:hover {
   border-color: color-mix(in srgb, var(--color-text) 40%, transparent);
 }
+
+.sbm-header-toggle {
+  display: none;
+}
+.sbm-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+.sbm-header-backdrop {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .sbm-header-toggle {
+    display: inline-flex;
+  }
+  .sbm-header-actions {
+    display: none;
+  }
+  .sbm-header-actions.sbm-open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    padding: 14px clamp(12px, 4vw, 24px) 16px;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-divider);
+    box-shadow: var(--shadow-lg);
+    z-index: 6;
+  }
+  .sbm-header-backdrop {
+    display: block;
+  }
+}
