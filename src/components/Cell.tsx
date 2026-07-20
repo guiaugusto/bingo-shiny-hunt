@@ -35,7 +35,18 @@ export default function Cell({ cell, index, onEdit }: CellProps) {
     >
       {has ? (
         <>
-          <div style={{ position: 'relative', width: '100%', flex: 1, display: 'grid', placeItems: 'center', minHeight: 0 }}>
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: 0,
+              overflow: 'hidden',
+            }}
+          >
             <img
               src={spriteUrl(cell.key)}
               loading="lazy"
