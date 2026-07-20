@@ -2,6 +2,7 @@ import type { Bingo, Cell } from '../types';
 import { GAME_MAP, CAUGHT_COLOR } from '../constants';
 import { spriteUrl } from './dex';
 import { downloadBlob } from './download';
+import { slugify } from './slug';
 
 export interface ExportLabels {
   untitled: string;
@@ -145,12 +146,7 @@ function paint(
 }
 
 function slug(b: Bingo): string {
-  return (
-    (b.title || 'shiny-bingo')
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '') || 'shiny-bingo'
-  );
+  return slugify(b.title, 'shiny-bingo');
 }
 
 export async function exportPNG(b: Bingo, labels: ExportLabels): Promise<void> {

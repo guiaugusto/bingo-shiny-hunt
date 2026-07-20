@@ -3,6 +3,7 @@ import type { Bingo, Cell } from '../types';
 import { MAX_BINGOS } from '../constants';
 import { buildExportPayload, emptyCells, loadData, newBingo, parseImportPayload, saveData } from '../lib/storage';
 import { downloadBlob } from '../lib/download';
+import { slugify } from '../lib/slug';
 import { useI18n } from '../i18n/I18nContext';
 
 export interface ImportSummary {
@@ -137,11 +138,11 @@ export function useBingoStore() {
     }
   }, [undoSnapshot, activeId, persist]);
 
-  const exportBingos = useCallback(() => {
-    const payload = buildExportPayload(bingos);
+  const exportBingo = useCallback((bingo: Bingo) => {
+    const payload = buildExportPayload([bingo]);
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-    downloadBlob(blob, `bingo-shiny-hunt-export-${new Date().toISOString().slice(0, 10)}.json`);
-  }, [bingos]);
+    downloadBlob(blob, `${slugify(bingo.title)}-${new Date().toISOString().slice(0, 10)}.json`);
+  }, []);
 
   const importBingos = useCallback(
     async (file: File): Promise<ImportSummary> => {
@@ -197,7 +198,7 @@ export function useBingoStore() {
     clearBoard,
     undoClear,
     hasUndo: !!undoSnapshot,
-    exportBingos,
+    exportBingo,
     importBingos,
   };
 }

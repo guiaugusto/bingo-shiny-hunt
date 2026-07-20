@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { SIZES } from '../constants';
 import { useI18n } from '../i18n/I18nContext';
 import LanguageToggle from './LanguageToggle';
@@ -8,10 +9,21 @@ interface HeaderProps {
   onClearBoard: () => void;
   onExportPNG: () => void;
   onExportSVG: () => void;
+  onExportData: () => void;
+  onImportData: (file: File) => void;
 }
 
-export default function Header({ size, onSizeChange, onClearBoard, onExportPNG, onExportSVG }: HeaderProps) {
+export default function Header({
+  size,
+  onSizeChange,
+  onClearBoard,
+  onExportPNG,
+  onExportSVG,
+  onExportData,
+  onImportData,
+}: HeaderProps) {
   const { t } = useI18n();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <header
@@ -88,6 +100,26 @@ export default function Header({ size, onSizeChange, onClearBoard, onExportPNG, 
           <button className="btn btn-primary" onClick={onExportSVG}>
             SVG
           </button>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+          <button className="btn btn-secondary" onClick={onExportData}>
+            {t.exportData}
+          </button>
+          <button className="btn btn-secondary" onClick={() => fileInputRef.current?.click()}>
+            {t.importData}
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="application/json,.json"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              e.target.value = '';
+              if (file) onImportData(file);
+            }}
+            style={{ display: 'none' }}
+          />
         </div>
       </div>
     </header>

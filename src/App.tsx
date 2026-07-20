@@ -26,7 +26,7 @@ export default function App() {
     clearBoard,
     undoClear,
     hasUndo,
-    exportBingos,
+    exportBingo,
     importBingos,
   } = useBingoStore();
 
@@ -59,16 +59,10 @@ export default function App() {
         onClearBoard={clearBoard}
         onExportPNG={() => exportPNG(active, { untitled: t.exportUntitled, caughtOf: t.exportCaughtOf })}
         onExportSVG={() => exportSVG(active, { untitled: t.exportUntitled, caughtOf: t.exportCaughtOf })}
+        onExportData={() => exportBingo(active)}
+        onImportData={handleImport}
       />
-      <BingoRail
-        bingos={bingos}
-        activeId={activeId}
-        onSelect={selectBingo}
-        onDelete={deleteBingo}
-        onAdd={addBingo}
-        onExport={exportBingos}
-        onImport={handleImport}
-      />
+      <BingoRail bingos={bingos} activeId={activeId} onSelect={selectBingo} onDelete={deleteBingo} onAdd={addBingo} />
       <BingoBoard
         bingo={active}
         onTitleChange={setTitle}

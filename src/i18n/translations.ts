@@ -79,8 +79,8 @@ export const translations: Record<Lang, Dictionary> = {
     undo: 'Undo',
     exportUntitled: 'Shiny Bingo',
     exportCaughtOf: (caught, total) => `${caught} / ${total} caught`,
-    exportData: 'Export boards',
-    importData: 'Import boards',
+    exportData: '📤 Export board',
+    importData: '📥 Import board',
     importSummary: (imported, skipped) =>
       skipped > 0
         ? `Imported ${imported} board${imported === 1 ? '' : 's'}, ${skipped} skipped (board limit reached).`
@@ -123,8 +123,8 @@ export const translations: Record<Lang, Dictionary> = {
     undo: 'Desfazer',
     exportUntitled: 'Bingo Shiny',
     exportCaughtOf: (caught, total) => `${caught} / ${total} capturados`,
-    exportData: 'Exportar cartelas',
-    importData: 'Importar cartelas',
+    exportData: '📤 Exportar cartela',
+    importData: '📥 Importar cartela',
     importSummary: (imported, skipped) =>
       skipped > 0
         ? `${imported} cartela${imported === 1 ? '' : 's'} importada${imported === 1 ? '' : 's'}, ${skipped} ignorada${skipped === 1 ? '' : 's'} (limite de cartelas atingido).`
