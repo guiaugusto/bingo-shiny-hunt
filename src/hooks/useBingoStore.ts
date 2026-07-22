@@ -164,23 +164,20 @@ export function useBingoStore() {
         return { imported: 0, skipped: 0, invalid: parsed.invalidCount, error: false };
       }
 
-      let imported = 0;
-      let skipped = 0;
-      setBingos((prev) => {
-        const room = Math.max(0, MAX_BINGOS - prev.length);
-        const toAdd = parsed.bingos.slice(0, room);
-        imported = toAdd.length;
-        skipped = parsed.bingos.length - toAdd.length;
-        if (!toAdd.length) return prev;
-        const next = [...prev, ...toAdd];
+      const room = Math.max(0, MAX_BINGOS - bingos.length);
+      const toAdd = parsed.bingos.slice(0, room);
+      const skipped = parsed.bingos.length - toAdd.length;
+
+      if (toAdd.length) {
+        const next = [...bingos, ...toAdd];
+        setBingos(next);
         persist(next, toAdd[0].id);
         setActiveId(toAdd[0].id);
-        return next;
-      });
+      }
 
-      return { imported, skipped, invalid: parsed.invalidCount, error: false };
+      return { imported: toAdd.length, skipped, invalid: parsed.invalidCount, error: false };
     },
-    [persist],
+    [bingos, persist],
   );
 
   return {
