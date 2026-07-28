@@ -40,7 +40,14 @@
 html,
 body,
 #root {
-  height: 100%;
+  /* min-height, not height: with a fixed height, body's box (and the
+     percentage-sized gradient below, which is relative to that box) is
+     capped at exactly one viewport tall. Any content taller than that
+     (any board bigger than a handful of rows) overflows past where the
+     gradient was ever computed, so scrolling past that point reveals a
+     hard color cut instead of a smooth fade. min-height lets the box
+     actually grow to the full content height so the gradient covers it. */
+  min-height: 100%;
 }
 
 html {
