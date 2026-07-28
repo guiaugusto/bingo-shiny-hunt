@@ -221,8 +221,8 @@ button {
     top: 0;
     bottom: 0;
     left: 0;
-    width: min(85vw, 300px);
-    padding: 0 8px 16px;
+    width: min(70vw, 250px);
+    padding: 0 6px 16px;
     overflow-y: auto;
     background: var(--color-surface);
     box-shadow: var(--shadow-lg);
@@ -297,19 +297,19 @@ button {
   .sbm-header-group--stack .btn {
     width: 100%;
     justify-content: flex-start;
-    gap: 14px;
-    padding: 11px 10px;
+    gap: 10px;
+    padding: 9px 8px;
     border-radius: var(--radius-md);
     border-color: transparent;
     background: transparent;
-    font-size: 14px;
+    font-size: 13px;
   }
   .sbm-header-group--stack .btn:hover,
   .sbm-header-group--stack .btn:focus-visible {
     background: color-mix(in srgb, var(--color-text) 8%, transparent);
   }
   .sbm-header-group--stack .btn-icon {
-    padding: 11px 10px;
+    padding: 9px 8px;
   }
 
   .sbm-github-label {
