@@ -41,147 +41,162 @@ export default function Header({
         position: 'sticky',
         top: 0,
         zIndex: 5,
-        padding: '10px clamp(12px, 4vw, 24px)',
-        borderBottom: '1px solid var(--color-divider)',
-        backdropFilter: 'blur(8px)',
-        background: 'color-mix(in srgb, var(--color-bg) 78%, transparent)',
       }}
     >
-      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', rowGap: 10, columnGap: 16 }}>
-        {/* Hidden on desktop (.sbm-header-toggle); placed before the brand so
-            it sits on the left on mobile, matching the drawer sliding from the left. */}
-        <button
-          type="button"
-          className="btn btn-icon btn-secondary sbm-header-toggle"
-          onClick={() => setMenuOpen(true)}
-          aria-label={t.menu}
-          aria-expanded={menuOpen}
-        >
-          ☰
-        </button>
+      {/* Carries the blur/background instead of the <header> itself — a
+          backdrop-filter directly on <header> would make it the containing
+          block for any position:fixed descendant (the drawer, the scrim),
+          trapping them inside the header's own small box instead of the
+          full viewport. */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: -1,
+          borderBottom: '1px solid var(--color-divider)',
+          backdropFilter: 'blur(8px)',
+          background: 'color-mix(in srgb, var(--color-bg) 78%, transparent)',
+        }}
+      />
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 auto', minWidth: 0 }}>
-          <span
-            style={{
-              display: 'grid',
-              placeItems: 'center',
-              width: 30,
-              height: 30,
-              flex: 'none',
-              borderRadius: 'var(--radius-md)',
-              background: 'var(--color-accent-800)',
-              color: 'var(--color-accent-200)',
-              fontSize: 15,
-            }}
+      <div style={{ padding: '10px clamp(12px, 4vw, 24px)' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', rowGap: 10, columnGap: 16 }}>
+          {/* Hidden on desktop (.sbm-header-toggle); placed before the brand so
+              it sits on the left on mobile, matching the drawer sliding from the left. */}
+          <button
+            type="button"
+            className="btn btn-icon btn-secondary sbm-header-toggle"
+            onClick={() => setMenuOpen(true)}
+            aria-label={t.menu}
+            aria-expanded={menuOpen}
           >
-            ✦
-          </span>
-          <span
-            style={{
-              fontWeight: 600,
-              fontSize: 15,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            Bingo Shiny Hunt
-          </span>
-        </div>
+            ☰
+          </button>
 
-        <div className={`sbm-header-actions${menuOpen ? ' sbm-open' : ''}`}>
-          <div className="sbm-drawer-header">
-            <div className="sbm-drawer-title">
-              <span className="sbm-drawer-brand-icon">✦</span>
-              <span>Bingo Shiny Hunt</span>
-            </div>
-            <button
-              type="button"
-              className="btn btn-icon btn-ghost"
-              onClick={() => setMenuOpen(false)}
-              aria-label={t.close}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 auto', minWidth: 0 }}>
+            <span
+              style={{
+                display: 'grid',
+                placeItems: 'center',
+                width: 30,
+                height: 30,
+                flex: 'none',
+                borderRadius: 'var(--radius-md)',
+                background: 'var(--color-accent-800)',
+                color: 'var(--color-accent-200)',
+                fontSize: 15,
+              }}
             >
-              ✕
-            </button>
+              ✦
+            </span>
+            <span
+              style={{
+                fontWeight: 600,
+                fontSize: 15,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Bingo Shiny Hunt
+            </span>
           </div>
 
-          <div className="sbm-header-section">
-            <span className="sbm-header-section-label">{t.sectionAppearance}</span>
-            <div className="sbm-header-group">
-              <ThemeToggle />
-              <LanguageToggle />
-            </div>
-          </div>
-
-          <div className="sbm-header-section">
-            <span className="sbm-header-section-label">{t.sectionBoard}</span>
-            <div className="sbm-header-group">
-              <label style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 60%, transparent)' }}>{t.grid}</label>
-              <select
-                className="input"
-                value={size}
-                onChange={(e) => onSizeChange(Number(e.target.value))}
-                style={{ width: 'auto', minWidth: 78, cursor: 'pointer' }}
-              >
-                {SIZES.map((s) => (
-                  <option key={s} value={s}>
-                    {s}×{s}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="sbm-header-group sbm-header-group--stack">
-              <button className="btn btn-ghost" onClick={runAndClose(onClearBoard)}>
-                <span className="sbm-row-icon">🧹</span>
-                {t.clearBoard}
-              </button>
-              <button className="btn btn-secondary" onClick={runAndClose(onExportPNG)}>
-                <span className="sbm-row-icon">🖼️</span>
-                PNG
-              </button>
-              <button className="btn btn-primary" onClick={runAndClose(onExportSVG)}>
-                <span className="sbm-row-icon">🖼️</span>
-                SVG
-              </button>
-            </div>
-          </div>
-
-          <div className="sbm-header-section">
-            <span className="sbm-header-section-label">{t.sectionData}</span>
-            <div className="sbm-header-group sbm-header-group--stack">
-              <button className="btn btn-secondary" onClick={runAndClose(onExportData)}>
-                {t.exportData}
-              </button>
-              <button className="btn btn-secondary" onClick={runAndClose(() => fileInputRef.current?.click())}>
-                {t.importData}
-              </button>
-            </div>
-          </div>
-
-          <div className="sbm-header-section">
-            <span className="sbm-header-section-label">{t.sectionCommunity}</span>
-            <div className="sbm-header-group sbm-header-group--stack">
-              <a
-                href={FEEDBACK_FORM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary"
+          <div className={`sbm-header-actions${menuOpen ? ' sbm-open' : ''}`}>
+            <div className="sbm-drawer-header">
+              <div className="sbm-drawer-title">
+                <span className="sbm-drawer-brand-icon">✦</span>
+                <span>Bingo Shiny Hunt</span>
+              </div>
+              <button
+                type="button"
+                className="btn btn-icon btn-ghost"
                 onClick={() => setMenuOpen(false)}
+                aria-label={t.close}
               >
-                {t.feedback}
-              </a>
-              <a
-                href={GITHUB_REPO_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-icon btn-secondary"
-                aria-label={t.githubRepo}
-                title={t.githubRepo}
-                onClick={() => setMenuOpen(false)}
-              >
-                <GitHubIcon />
-                <span className="sbm-github-label">GitHub</span>
-              </a>
+                ✕
+              </button>
+            </div>
+
+            <div className="sbm-header-section">
+              <span className="sbm-header-section-label">{t.sectionAppearance}</span>
+              <div className="sbm-header-group">
+                <ThemeToggle />
+                <LanguageToggle />
+              </div>
+            </div>
+
+            <div className="sbm-header-section">
+              <span className="sbm-header-section-label">{t.sectionBoard}</span>
+              <div className="sbm-header-group">
+                <label style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 60%, transparent)' }}>{t.grid}</label>
+                <select
+                  className="input"
+                  value={size}
+                  onChange={(e) => onSizeChange(Number(e.target.value))}
+                  style={{ width: 'auto', minWidth: 78, cursor: 'pointer' }}
+                >
+                  {SIZES.map((s) => (
+                    <option key={s} value={s}>
+                      {s}×{s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="sbm-header-group sbm-header-group--stack">
+                <button className="btn btn-ghost" onClick={runAndClose(onClearBoard)}>
+                  <span className="sbm-row-icon">🧹</span>
+                  {t.clearBoard}
+                </button>
+                <button className="btn btn-secondary" onClick={runAndClose(onExportPNG)}>
+                  <span className="sbm-row-icon">🖼️</span>
+                  PNG
+                </button>
+                <button className="btn btn-primary" onClick={runAndClose(onExportSVG)}>
+                  <span className="sbm-row-icon">🖼️</span>
+                  SVG
+                </button>
+              </div>
+            </div>
+
+            <div className="sbm-header-section">
+              <span className="sbm-header-section-label">{t.sectionData}</span>
+              <div className="sbm-header-group sbm-header-group--stack">
+                <button className="btn btn-secondary" onClick={runAndClose(onExportData)}>
+                  {t.exportData}
+                </button>
+                <button className="btn btn-secondary" onClick={runAndClose(() => fileInputRef.current?.click())}>
+                  {t.importData}
+                </button>
+              </div>
+            </div>
+
+            <div className="sbm-header-section">
+              <span className="sbm-header-section-label">{t.sectionCommunity}</span>
+              <div className="sbm-header-group sbm-header-group--stack">
+                <a
+                  href={FEEDBACK_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-secondary"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {t.feedback}
+                </a>
+                <a
+                  href={GITHUB_REPO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-icon btn-secondary"
+                  aria-label={t.githubRepo}
+                  title={t.githubRepo}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <GitHubIcon />
+                  <span className="sbm-github-label">GitHub</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
