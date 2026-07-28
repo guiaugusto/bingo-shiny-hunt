@@ -67,7 +67,11 @@ export default function Header({
         }}
       />
 
-      <div style={{ padding: '10px clamp(12px, 4vw, 24px)' }}>
+      <div style={{ padding: '10px clamp(12px, 4vw, 24px)', display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {/* Slim identity row: brand + tabs, truly centered via the 3-column
+            grid (.sbm-header-row) since it's only ever these two things —
+            keeping the (potentially long) action toolbar out of this row is
+            what lets the centering stay stable as more buttons get added. */}
         <div className="sbm-header-row">
           {/* Hidden on desktop (.sbm-header-toggle); placed before the brand so
               it sits on the left on mobile, matching the drawer sliding from the left. */}
@@ -110,9 +114,8 @@ export default function Header({
             </span>
           </div>
 
-          {/* Desktop only — centered in the topbar via the 3-column grid
-              (.sbm-header-row); hidden on mobile, where the same choice
-              lives at the top of the drawer instead. */}
+          {/* Desktop only — hidden on mobile, where the same choice lives at
+              the top of the drawer instead. */}
           <div className="sbm-header-tabs-desktop">
             <button className={`btn ${view === 'board' ? 'btn-primary' : 'btn-ghost'}`} onClick={() => onViewChange('board')}>
               {t.tabBoards}
@@ -121,121 +124,126 @@ export default function Header({
               {t.tabDex}
             </button>
           </div>
+        </div>
 
-          <div className={`sbm-header-actions${menuOpen ? ' sbm-open' : ''}`}>
-            <div className="sbm-drawer-header">
-              <div className="sbm-drawer-title">
-                <span className="sbm-drawer-brand-icon">✦</span>
-                <span>Bingo Shiny Hunt</span>
-              </div>
+        {/* Desktop: its own full-width toolbar row below the brand/tabs row,
+            free to wrap as more buttons get added. Mobile: the fixed-position
+            drawer instead — being a sibling here rather than nested inside
+            .sbm-header-row doesn't change that, position:fixed escapes
+            normal flow either way. */}
+        <div className={`sbm-header-actions${menuOpen ? ' sbm-open' : ''}`}>
+          <div className="sbm-drawer-header">
+            <div className="sbm-drawer-title">
+              <span className="sbm-drawer-brand-icon">✦</span>
+              <span>Bingo Shiny Hunt</span>
+            </div>
+            <button
+              type="button"
+              className="btn btn-icon btn-ghost"
+              onClick={() => setMenuOpen(false)}
+              aria-label={t.close}
+            >
+              ✕
+            </button>
+          </div>
+
+          <div className="sbm-drawer-tabs">
+            <div className="sbm-header-group sbm-header-group--stack">
               <button
-                type="button"
-                className="btn btn-icon btn-ghost"
-                onClick={() => setMenuOpen(false)}
-                aria-label={t.close}
+                className={`btn ${view === 'board' ? 'btn-primary' : 'btn-ghost'}`}
+                onClick={runAndClose(() => onViewChange('board'))}
               >
-                ✕
+                {t.tabBoards}
+              </button>
+              <button
+                className={`btn ${view === 'dex' ? 'btn-primary' : 'btn-ghost'}`}
+                onClick={runAndClose(() => onViewChange('dex'))}
+              >
+                {t.tabDex}
               </button>
             </div>
+          </div>
 
-            <div className="sbm-drawer-tabs">
-              <div className="sbm-header-group sbm-header-group--stack">
-                <button
-                  className={`btn ${view === 'board' ? 'btn-primary' : 'btn-ghost'}`}
-                  onClick={runAndClose(() => onViewChange('board'))}
-                >
-                  {t.tabBoards}
-                </button>
-                <button
-                  className={`btn ${view === 'dex' ? 'btn-primary' : 'btn-ghost'}`}
-                  onClick={runAndClose(() => onViewChange('dex'))}
-                >
-                  {t.tabDex}
-                </button>
-              </div>
+          <div className="sbm-header-section">
+            <span className="sbm-header-section-label">{t.sectionAppearance}</span>
+            <div className="sbm-header-group">
+              <ThemeToggle />
+              <LanguageToggle />
             </div>
+          </div>
 
-            <div className="sbm-header-section">
-              <span className="sbm-header-section-label">{t.sectionAppearance}</span>
-              <div className="sbm-header-group">
-                <ThemeToggle />
-                <LanguageToggle />
-              </div>
+          <div className="sbm-header-section">
+            <span className="sbm-header-section-label">{t.sectionBoard}</span>
+            <div className="sbm-header-group">
+              <label style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 60%, transparent)' }}>{t.grid}</label>
+              <select
+                className="input"
+                value={size}
+                onChange={(e) => onSizeChange(Number(e.target.value))}
+                style={{ width: 'auto', minWidth: 78, cursor: 'pointer' }}
+              >
+                {SIZES.map((s) => (
+                  <option key={s} value={s}>
+                    {s}×{s}
+                  </option>
+                ))}
+              </select>
             </div>
-
-            <div className="sbm-header-section">
-              <span className="sbm-header-section-label">{t.sectionBoard}</span>
-              <div className="sbm-header-group">
-                <label style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 60%, transparent)' }}>{t.grid}</label>
-                <select
-                  className="input"
-                  value={size}
-                  onChange={(e) => onSizeChange(Number(e.target.value))}
-                  style={{ width: 'auto', minWidth: 78, cursor: 'pointer' }}
-                >
-                  {SIZES.map((s) => (
-                    <option key={s} value={s}>
-                      {s}×{s}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="sbm-header-group sbm-header-group--stack">
-                <button className="btn btn-ghost" onClick={runAndClose(onClearBoard)}>
-                  <span className="sbm-row-icon">🧹</span>
-                  {t.clearBoard}
-                </button>
-                <button className="btn btn-secondary" onClick={runAndClose(onExportPNG)}>
-                  <span className="sbm-row-icon">🖼️</span>
-                  PNG
-                </button>
-                <button className="btn btn-primary" onClick={runAndClose(onExportSVG)}>
-                  <span className="sbm-row-icon">🖼️</span>
-                  SVG
-                </button>
-              </div>
+            <div className="sbm-header-group sbm-header-group--stack">
+              <button className="btn btn-ghost" onClick={runAndClose(onClearBoard)}>
+                <span className="sbm-row-icon">🧹</span>
+                {t.clearBoard}
+              </button>
+              <button className="btn btn-secondary" onClick={runAndClose(onExportPNG)}>
+                <span className="sbm-row-icon">🖼️</span>
+                PNG
+              </button>
+              <button className="btn btn-primary" onClick={runAndClose(onExportSVG)}>
+                <span className="sbm-row-icon">🖼️</span>
+                SVG
+              </button>
             </div>
+          </div>
 
-            <div className="sbm-header-section">
-              <span className="sbm-header-section-label">{t.sectionData}</span>
-              <div className="sbm-header-group sbm-header-group--stack">
-                <button className="btn btn-secondary" onClick={runAndClose(onExportData)}>
-                  {t.exportData}
-                </button>
-                <button className="btn btn-secondary" onClick={runAndClose(onExportAllData)}>
-                  {t.exportAllData}
-                </button>
-                <button className="btn btn-secondary" onClick={runAndClose(() => fileInputRef.current?.click())}>
-                  {t.importData}
-                </button>
-              </div>
+          <div className="sbm-header-section">
+            <span className="sbm-header-section-label">{t.sectionData}</span>
+            <div className="sbm-header-group sbm-header-group--stack">
+              <button className="btn btn-secondary" onClick={runAndClose(onExportData)}>
+                {t.exportData}
+              </button>
+              <button className="btn btn-secondary" onClick={runAndClose(onExportAllData)}>
+                {t.exportAllData}
+              </button>
+              <button className="btn btn-secondary" onClick={runAndClose(() => fileInputRef.current?.click())}>
+                {t.importData}
+              </button>
             </div>
+          </div>
 
-            <div className="sbm-header-section">
-              <span className="sbm-header-section-label">{t.sectionCommunity}</span>
-              <div className="sbm-header-group sbm-header-group--stack">
-                <a
-                  href={FEEDBACK_FORM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-secondary"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {t.feedback}
-                </a>
-                <a
-                  href={GITHUB_REPO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-icon btn-secondary"
-                  aria-label={t.githubRepo}
-                  title={t.githubRepo}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <GitHubIcon />
-                  <span className="sbm-github-label">GitHub</span>
-                </a>
-              </div>
+          <div className="sbm-header-section">
+            <span className="sbm-header-section-label">{t.sectionCommunity}</span>
+            <div className="sbm-header-group sbm-header-group--stack">
+              <a
+                href={FEEDBACK_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary"
+                onClick={() => setMenuOpen(false)}
+              >
+                {t.feedback}
+              </a>
+              <a
+                href={GITHUB_REPO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-icon btn-secondary"
+                aria-label={t.githubRepo}
+                title={t.githubRepo}
+                onClick={() => setMenuOpen(false)}
+              >
+                <GitHubIcon />
+                <span className="sbm-github-label">GitHub</span>
+              </a>
             </div>
           </div>
         </div>
