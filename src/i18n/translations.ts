@@ -4,6 +4,8 @@ export const LANG_STORAGE_KEY = 'bsh:lang:v1';
 
 interface Dictionary {
   menu: string;
+  lightMode: string;
+  darkMode: string;
   grid: string;
   clearBoard: string;
   titlePlaceholder: string;
@@ -48,6 +50,8 @@ interface Dictionary {
 export const translations: Record<Lang, Dictionary> = {
   en: {
     menu: 'Menu',
+    lightMode: 'Light mode',
+    darkMode: 'Dark mode',
     grid: 'Grid',
     clearBoard: 'Clear board',
     titlePlaceholder: 'Bingo title',
@@ -93,6 +97,8 @@ export const translations: Record<Lang, Dictionary> = {
   },
   'pt-BR': {
     menu: 'Menu',
+    lightMode: 'Modo claro',
+    darkMode: 'Modo escuro',
     grid: 'Grade',
     clearBoard: 'Limpar cartela',
     titlePlaceholder: 'Título do bingo',

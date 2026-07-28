@@ -258,7 +258,7 @@ export default function PickerDialog({ initialCell, onCancel, onConfirm, onRemov
               <button
                 className="btn btn-ghost"
                 onClick={onRemove}
-                style={{ color: '#f87171' }}
+                style={{ color: 'var(--color-danger)' }}
               >
                 {t.remove}
               </button>

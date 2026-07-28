@@ -1,5 +1,6 @@
 :root {
   --color-bg: #161826;
+  --color-bg-glow: #1c1f30;
   --color-surface: #1e2030;
   --color-text: #e9e9ed;
   --color-accent: #9184d9;
@@ -8,11 +9,28 @@
   --color-divider: #2b2e42;
   --color-neutral-700: #3a3d52;
   --color-neutral-800: #262838;
+  --color-danger: #f87171;
+  --color-scrim: rgba(10, 11, 18, 0.6);
   --radius-sm: 6px;
   --radius-md: 8px;
   --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
   --font-body: Inter, system-ui, sans-serif;
   --font-heading: Inter, system-ui, sans-serif;
+}
+
+:root[data-theme='light'] {
+  --color-bg: #f5f4fb;
+  --color-bg-glow: #ffffff;
+  --color-surface: #ffffff;
+  --color-text: #1c1a26;
+  --color-accent: #6d5fc7;
+  --color-accent-200: #4c3d9e;
+  --color-accent-800: #ece9fb;
+  --color-divider: #e1dced;
+  --color-neutral-700: #c7c2dd;
+  --color-neutral-800: #eae7f5;
+  --color-danger: #dc2626;
+  --shadow-lg: 0 12px 32px rgba(40, 30, 80, 0.14);
 }
 
 * {
@@ -31,9 +49,10 @@ html {
 
 body {
   margin: 0;
-  background: radial-gradient(120% 90% at 50% -10%, #1c1f30, var(--color-bg) 60%);
+  background: radial-gradient(120% 90% at 50% -10%, var(--color-bg-glow), var(--color-bg) 60%);
   color: var(--color-text);
   font-family: var(--font-body);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 a {
@@ -106,7 +125,7 @@ button {
 .dialog-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(10, 11, 18, 0.6);
+  background: var(--color-scrim);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -4,6 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bingo Shiny Hunt</title>
+    <script>
+      // Sets the theme before first paint to avoid a flash of the wrong theme.
+      // Keep the storage key in sync with THEME_STORAGE_KEY in src/theme/ThemeContext.tsx.
+      (function () {
+        try {
+          var stored = localStorage.getItem('bsh:theme:v1');
+          var theme =
+            stored === 'light' || stored === 'dark'
+              ? stored
+              : window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches
+                ? 'light'
+                : 'dark';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
     <link
       rel="preconnect"
       href="https://fonts.googleapis.com"

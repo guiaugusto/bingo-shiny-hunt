@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { SIZES } from '../constants';
 import { useI18n } from '../i18n/I18nContext';
 import LanguageToggle from './LanguageToggle';
+import ThemeToggle from './ThemeToggle';
 
 interface HeaderProps {
   size: number;
@@ -86,7 +87,10 @@ export default function Header({
         </button>
 
         <div className={`sbm-header-actions${menuOpen ? ' sbm-open' : ''}`}>
-          <LanguageToggle />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <ThemeToggle />
+            <LanguageToggle />
+          </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <label style={{ fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 60%, transparent)' }}>{t.grid}</label>
