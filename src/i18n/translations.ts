@@ -8,6 +8,10 @@ interface Dictionary {
   darkMode: string;
   feedback: string;
   githubRepo: string;
+  sectionAppearance: string;
+  sectionBoard: string;
+  sectionData: string;
+  sectionCommunity: string;
   grid: string;
   clearBoard: string;
   titlePlaceholder: string;
@@ -56,6 +60,10 @@ export const translations: Record<Lang, Dictionary> = {
     darkMode: 'Dark mode',
     feedback: '💬 Give feedback',
     githubRepo: 'View source on GitHub',
+    sectionAppearance: 'Appearance',
+    sectionBoard: 'Board',
+    sectionData: 'Data',
+    sectionCommunity: 'Community',
     grid: 'Grid',
     clearBoard: 'Clear board',
     titlePlaceholder: 'Bingo title',
@@ -105,6 +113,10 @@ export const translations: Record<Lang, Dictionary> = {
     darkMode: 'Modo escuro',
     feedback: '💬 Dar feedback',
     githubRepo: 'Ver código-fonte no GitHub',
+    sectionAppearance: 'Aparência',
+    sectionBoard: 'Cartela',
+    sectionData: 'Dados',
+    sectionCommunity: 'Comunidade',
     grid: 'Grade',
     clearBoard: 'Limpar cartela',
     titlePlaceholder: 'Título do bingo',
