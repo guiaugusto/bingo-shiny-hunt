@@ -185,16 +185,22 @@ button {
 }
 
 .sbm-header-row {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  row-gap: 10px;
   column-gap: 16px;
 }
 .sbm-header-tabs-desktop {
   display: flex;
   align-items: center;
   gap: 8px;
-  justify-self: center;
+}
+.sbm-header-divider {
+  display: block;
+  align-self: stretch;
+  width: 1px;
+  background: var(--color-divider);
 }
 .sbm-header-toggle {
   display: none;
@@ -230,14 +236,8 @@ button {
 /* Material-style navigation drawer: slides in from the left (same side as
    the ☰ trigger), full height, borderless list rows with a leading icon. */
 @media (max-width: 1024px) {
-  .sbm-header-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    row-gap: 10px;
-    column-gap: 16px;
-  }
-  .sbm-header-tabs-desktop {
+  .sbm-header-tabs-desktop,
+  .sbm-header-divider {
     display: none;
   }
 

@@ -65,7 +65,7 @@ export const translations: Record<Lang, Dictionary> = {
     menu: 'Menu',
     lightMode: 'Light mode',
     darkMode: 'Dark mode',
-    feedback: '💬 Give feedback',
+    feedback: '💬 Feedback',
     githubRepo: 'View source on GitHub',
     sectionAppearance: 'Appearance',
     sectionBoard: 'Board',
@@ -104,9 +104,9 @@ export const translations: Record<Lang, Dictionary> = {
     undo: 'Undo',
     exportUntitled: 'Shiny Bingo',
     exportCaughtOf: (caught, total) => `${caught} / ${total} caught`,
-    exportData: '📤 Export board',
+    exportData: '📤 Export',
     exportAllData: '📦 Export all boards',
-    importData: '📥 Import board',
+    importData: '📥 Import',
     importSummary: (imported, skipped) =>
       skipped > 0
         ? `Imported ${imported} board${imported === 1 ? '' : 's'}, ${skipped} skipped (board limit reached).`
@@ -125,7 +125,7 @@ export const translations: Record<Lang, Dictionary> = {
     menu: 'Menu',
     lightMode: 'Modo claro',
     darkMode: 'Modo escuro',
-    feedback: '💬 Dar feedback',
+    feedback: '💬 Feedback',
     githubRepo: 'Ver código-fonte no GitHub',
     sectionAppearance: 'Aparência',
     sectionBoard: 'Cartela',
@@ -164,9 +164,9 @@ export const translations: Record<Lang, Dictionary> = {
     undo: 'Desfazer',
     exportUntitled: 'Bingo Shiny',
     exportCaughtOf: (caught, total) => `${caught} / ${total} capturados`,
-    exportData: '📤 Exportar cartela',
+    exportData: '📤 Exportar',
     exportAllData: '📦 Exportar todas as cartelas',
-    importData: '📥 Importar cartela',
+    importData: '📥 Importar',
     importSummary: (imported, skipped) =>
       skipped > 0
         ? `${imported} cartela${imported === 1 ? '' : 's'} importada${imported === 1 ? '' : 's'}, ${skipped} ignorada${skipped === 1 ? '' : 's'} (limite de cartelas atingido).`
