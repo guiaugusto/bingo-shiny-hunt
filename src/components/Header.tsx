@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { FEEDBACK_FORM_URL, GITHUB_REPO_URL, SIZES } from '../constants';
 import { useI18n } from '../i18n/I18nContext';
+import type { View } from '../App';
 import LanguageToggle from './LanguageToggle';
 import ThemeToggle from './ThemeToggle';
 import GitHubIcon from './GitHubIcon';
@@ -13,6 +14,8 @@ interface HeaderProps {
   onExportSVG: () => void;
   onExportData: () => void;
   onImportData: (file: File) => void;
+  view: View;
+  onViewChange: (v: View) => void;
 }
 
 export default function Header({
@@ -23,6 +26,8 @@ export default function Header({
   onExportSVG,
   onExportData,
   onImportData,
+  view,
+  onViewChange,
 }: HeaderProps) {
   const { t } = useI18n();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -61,7 +66,7 @@ export default function Header({
       />
 
       <div style={{ padding: '10px clamp(12px, 4vw, 24px)' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', rowGap: 10, columnGap: 16 }}>
+        <div className="sbm-header-row">
           {/* Hidden on desktop (.sbm-header-toggle); placed before the brand so
               it sits on the left on mobile, matching the drawer sliding from the left. */}
           <button
@@ -103,6 +108,18 @@ export default function Header({
             </span>
           </div>
 
+          {/* Desktop only — centered in the topbar via the 3-column grid
+              (.sbm-header-row); hidden on mobile, where the same choice
+              lives at the top of the drawer instead. */}
+          <div className="sbm-header-tabs-desktop">
+            <button className={`btn ${view === 'board' ? 'btn-primary' : 'btn-ghost'}`} onClick={() => onViewChange('board')}>
+              {t.tabBoards}
+            </button>
+            <button className={`btn ${view === 'dex' ? 'btn-primary' : 'btn-ghost'}`} onClick={() => onViewChange('dex')}>
+              {t.tabDex}
+            </button>
+          </div>
+
           <div className={`sbm-header-actions${menuOpen ? ' sbm-open' : ''}`}>
             <div className="sbm-drawer-header">
               <div className="sbm-drawer-title">
@@ -117,6 +134,23 @@ export default function Header({
               >
                 ✕
               </button>
+            </div>
+
+            <div className="sbm-drawer-tabs">
+              <div className="sbm-header-group sbm-header-group--stack">
+                <button
+                  className={`btn ${view === 'board' ? 'btn-primary' : 'btn-ghost'}`}
+                  onClick={runAndClose(() => onViewChange('board'))}
+                >
+                  {t.tabBoards}
+                </button>
+                <button
+                  className={`btn ${view === 'dex' ? 'btn-primary' : 'btn-ghost'}`}
+                  onClick={runAndClose(() => onViewChange('dex'))}
+                >
+                  {t.tabDex}
+                </button>
+              </div>
             </div>
 
             <div className="sbm-header-section">

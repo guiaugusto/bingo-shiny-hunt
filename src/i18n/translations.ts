@@ -51,6 +51,12 @@ interface Dictionary {
   importInvalidFile: string;
   importNothingValid: string;
   importNoRoom: string;
+  tabBoards: string;
+  tabDex: string;
+  dexSearchPlaceholder: string;
+  dexOnlyTracked: string;
+  dexSummary: (tracked: number, total: number) => string;
+  dexTileTitle: (count: number, caught: number) => string;
 }
 
 export const translations: Record<Lang, Dictionary> = {
@@ -106,6 +112,12 @@ export const translations: Record<Lang, Dictionary> = {
     importInvalidFile: "Could not read that file — make sure it's a valid Bingo Shiny Hunt export.",
     importNothingValid: 'No valid boards were found in that file.',
     importNoRoom: 'Board limit reached — delete a board before importing more.',
+    tabBoards: '🎯 Bingos',
+    tabDex: '📖 Pokédex',
+    dexSearchPlaceholder: 'Search the Pokédex…',
+    dexOnlyTracked: 'Only in my bingos',
+    dexSummary: (tracked, total) => `${tracked} tracked across your bingos · ${total} in the Pokédex`,
+    dexTileTitle: (count, caught) => `In ${count} cell${count === 1 ? '' : 's'} across your bingos · ${caught} caught`,
   },
   'pt-BR': {
     menu: 'Menu',
@@ -159,6 +171,12 @@ export const translations: Record<Lang, Dictionary> = {
     importInvalidFile: 'Não foi possível ler esse arquivo — confirme se é uma exportação válida do Bingo Shiny Hunt.',
     importNothingValid: 'Nenhuma cartela válida foi encontrada nesse arquivo.',
     importNoRoom: 'Limite de cartelas atingido — exclua uma cartela antes de importar mais.',
+    tabBoards: '🎯 Bingos',
+    tabDex: '📖 Pokédex',
+    dexSearchPlaceholder: 'Buscar na Pokédex…',
+    dexOnlyTracked: 'Só nos meus bingos',
+    dexSummary: (tracked, total) => `${tracked} rastreados nos seus bingos · ${total} na Pokédex`,
+    dexTileTitle: (count, caught) => `Em ${count} célula${count === 1 ? '' : 's'} nos seus bingos · ${caught} capturado${caught === 1 ? '' : 's'}`,
   },
 };
 

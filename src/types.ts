@@ -22,6 +22,7 @@ export interface GameInfo {
 }
 
 export interface DexVariant {
+  id: number;
   key: string;
   name: string;
   suffix: string;

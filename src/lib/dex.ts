@@ -31,10 +31,10 @@ export function buildVariants(json: RawMon[]): DexVariant[] {
       mon.forms.forEach((f) => {
         const suffix = f.spriteSuffix || '';
         const key = suffix ? `${baseSlug}-${suffix}` : baseSlug;
-        out.push({ key, name: f.name || mon.name, suffix, baseName: mon.name, baseSlug });
+        out.push({ id: mon.id, key, name: f.name || mon.name, suffix, baseName: mon.name, baseSlug });
       });
     } else {
-      out.push({ key: baseSlug, name: mon.name, suffix: '', baseName: mon.name, baseSlug });
+      out.push({ id: mon.id, key: baseSlug, name: mon.name, suffix: '', baseName: mon.name, baseSlug });
     }
   });
   return out;

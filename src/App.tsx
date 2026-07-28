@@ -5,9 +5,12 @@ import Header from './components/Header';
 import BingoRail from './components/BingoRail';
 import BingoBoard from './components/BingoBoard';
 import PickerDialog from './components/PickerDialog';
+import DexView from './components/DexView';
 import Toast from './components/Toast';
 import { exportPNG, exportSVG } from './lib/exportImage';
 import { useI18n } from './i18n/I18nContext';
+
+export type View = 'board' | 'dex';
 
 export default function App() {
   const { t } = useI18n();
@@ -31,6 +34,7 @@ export default function App() {
   } = useBingoStore();
 
   const [pickerIndex, setPickerIndex] = useState<number | null>(null);
+  const [view, setView] = useState<View>('board');
   const [importMessage, setImportMessage] = useState<string | null>(null);
   const importMsgTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -61,28 +65,37 @@ export default function App() {
         onExportSVG={() => exportSVG(active, { untitled: t.exportUntitled, caughtOf: t.exportCaughtOf })}
         onExportData={() => exportBingo(active)}
         onImportData={handleImport}
-      />
-      <BingoRail bingos={bingos} activeId={activeId} onSelect={selectBingo} onDelete={deleteBingo} onAdd={addBingo} />
-      <BingoBoard
-        bingo={active}
-        onTitleChange={setTitle}
-        onDescriptionChange={setDescription}
-        onEdit={setPickerIndex}
+        view={view}
+        onViewChange={setView}
       />
 
-      {pickerIndex !== null && (
-        <PickerDialog
-          initialCell={active.cells[pickerIndex]}
-          onCancel={() => setPickerIndex(null)}
-          onConfirm={(cell: Cell) => {
-            setCell(pickerIndex, cell);
-            setPickerIndex(null);
-          }}
-          onRemove={() => {
-            clearCell(pickerIndex);
-            setPickerIndex(null);
-          }}
-        />
+      {view === 'board' ? (
+        <>
+          <BingoRail bingos={bingos} activeId={activeId} onSelect={selectBingo} onDelete={deleteBingo} onAdd={addBingo} />
+          <BingoBoard
+            bingo={active}
+            onTitleChange={setTitle}
+            onDescriptionChange={setDescription}
+            onEdit={setPickerIndex}
+          />
+
+          {pickerIndex !== null && (
+            <PickerDialog
+              initialCell={active.cells[pickerIndex]}
+              onCancel={() => setPickerIndex(null)}
+              onConfirm={(cell: Cell) => {
+                setCell(pickerIndex, cell);
+                setPickerIndex(null);
+              }}
+              onRemove={() => {
+                clearCell(pickerIndex);
+                setPickerIndex(null);
+              }}
+            />
+          )}
+        </>
+      ) : (
+        <DexView bingos={bingos} />
       )}
 
       {hasUndo ? (
