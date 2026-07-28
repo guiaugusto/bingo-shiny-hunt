@@ -48,6 +48,18 @@ export default function Header({
       }}
     >
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', rowGap: 10, columnGap: 16 }}>
+        {/* Hidden on desktop (.sbm-header-toggle); placed before the brand so
+            it sits on the left on mobile, matching the drawer sliding from the left. */}
+        <button
+          type="button"
+          className="btn btn-icon btn-secondary sbm-header-toggle"
+          onClick={() => setMenuOpen(true)}
+          aria-label={t.menu}
+          aria-expanded={menuOpen}
+        >
+          ☰
+        </button>
+
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 auto', minWidth: 0 }}>
           <span
             style={{
@@ -77,19 +89,12 @@ export default function Header({
           </span>
         </div>
 
-        <button
-          type="button"
-          className="btn btn-icon btn-secondary sbm-header-toggle"
-          onClick={() => setMenuOpen((v) => !v)}
-          aria-label={t.menu}
-          aria-expanded={menuOpen}
-        >
-          ☰
-        </button>
-
         <div className={`sbm-header-actions${menuOpen ? ' sbm-open' : ''}`}>
           <div className="sbm-drawer-header">
-            <span>{t.menu}</span>
+            <div className="sbm-drawer-title">
+              <span className="sbm-drawer-brand-icon">✦</span>
+              <span>Bingo Shiny Hunt</span>
+            </div>
             <button
               type="button"
               className="btn btn-icon btn-ghost"
@@ -127,12 +132,15 @@ export default function Header({
             </div>
             <div className="sbm-header-group sbm-header-group--stack">
               <button className="btn btn-ghost" onClick={runAndClose(onClearBoard)}>
+                <span className="sbm-row-icon">🧹</span>
                 {t.clearBoard}
               </button>
               <button className="btn btn-secondary" onClick={runAndClose(onExportPNG)}>
+                <span className="sbm-row-icon">🖼️</span>
                 PNG
               </button>
               <button className="btn btn-primary" onClick={runAndClose(onExportSVG)}>
+                <span className="sbm-row-icon">🖼️</span>
                 SVG
               </button>
             </div>

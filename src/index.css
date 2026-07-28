@@ -198,13 +198,16 @@ button {
 }
 .sbm-drawer-header,
 .sbm-header-section-label,
-.sbm-github-label {
+.sbm-github-label,
+.sbm-row-icon {
   display: none;
 }
 .sbm-header-backdrop {
   display: none;
 }
 
+/* Material-style navigation drawer: slides in from the left (same side as
+   the ☰ trigger), full height, borderless list rows with a leading icon. */
 @media (max-width: 720px) {
   .sbm-header-toggle {
     display: inline-flex;
@@ -213,20 +216,18 @@ button {
   .sbm-header-actions {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: 4px;
+    gap: 0;
     position: fixed;
     top: 0;
     bottom: 0;
-    right: 0;
-    width: min(82vw, 320px);
-    padding: 12px clamp(12px, 4vw, 20px) 24px;
+    left: 0;
+    width: min(85vw, 300px);
+    padding: 0 8px 16px;
     overflow-y: auto;
     background: var(--color-surface);
-    border-left: 1px solid var(--color-divider);
     box-shadow: var(--shadow-lg);
     z-index: 6;
-    transform: translateX(100%);
+    transform: translateX(-100%);
     transition: transform 0.25s ease;
   }
   .sbm-header-actions.sbm-open {
@@ -236,28 +237,46 @@ button {
   .sbm-drawer-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding-bottom: 8px;
+    gap: 10px;
+    padding: 14px 10px;
     margin-bottom: 4px;
-    border-bottom: 1px solid var(--color-divider);
   }
-  .sbm-drawer-header span {
+  .sbm-drawer-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .sbm-drawer-brand-icon {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border-radius: var(--radius-sm);
+    background: var(--color-accent-800);
+    color: var(--color-accent-200);
+    font-size: 13px;
+  }
+  .sbm-drawer-title span:last-child {
     font-weight: 600;
     font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .sbm-header-section {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--color-divider);
-  }
-  .sbm-header-section:last-child {
-    border-bottom: none;
+    gap: 2px;
+    padding: 8px 0;
+    border-top: 1px solid var(--color-divider);
   }
   .sbm-header-section-label {
     display: block;
+    padding: 6px 10px 2px;
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
@@ -265,25 +284,48 @@ button {
     color: color-mix(in srgb, var(--color-text) 55%, transparent);
   }
 
+  .sbm-header-group {
+    padding: 4px 10px 6px;
+  }
+
   .sbm-header-group--stack {
     flex-direction: column;
     align-items: stretch;
-    gap: 6px;
+    gap: 1px;
+    padding: 0;
   }
   .sbm-header-group--stack .btn {
     width: 100%;
     justify-content: flex-start;
+    gap: 14px;
+    padding: 11px 10px;
+    border-radius: var(--radius-md);
+    border-color: transparent;
+    background: transparent;
+    font-size: 14px;
+  }
+  .sbm-header-group--stack .btn:hover,
+  .sbm-header-group--stack .btn:focus-visible {
+    background: color-mix(in srgb, var(--color-text) 8%, transparent);
   }
   .sbm-header-group--stack .btn-icon {
-    padding: 8px 14px;
+    padding: 11px 10px;
   }
 
   .sbm-github-label {
     display: inline;
   }
+  .sbm-row-icon {
+    display: inline-block;
+    flex: none;
+    width: 20px;
+    text-align: center;
+    font-size: 15px;
+  }
 
   .sbm-header-backdrop {
     display: block;
+    background: var(--color-scrim);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
