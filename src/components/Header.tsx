@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { SIZES } from '../constants';
+import { FEEDBACK_FORM_URL, SIZES } from '../constants';
 import { useI18n } from '../i18n/I18nContext';
 import LanguageToggle from './LanguageToggle';
 import ThemeToggle from './ThemeToggle';
@@ -128,6 +128,16 @@ export default function Header({
               {t.importData}
             </button>
           </div>
+
+          <a
+            href={FEEDBACK_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-secondary"
+            onClick={() => setMenuOpen(false)}
+          >
+            {t.feedback}
+          </a>
         </div>
       </div>
 

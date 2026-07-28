@@ -6,6 +6,7 @@ interface Dictionary {
   menu: string;
   lightMode: string;
   darkMode: string;
+  feedback: string;
   grid: string;
   clearBoard: string;
   titlePlaceholder: string;
@@ -52,6 +53,7 @@ export const translations: Record<Lang, Dictionary> = {
     menu: 'Menu',
     lightMode: 'Light mode',
     darkMode: 'Dark mode',
+    feedback: '💬 Give feedback',
     grid: 'Grid',
     clearBoard: 'Clear board',
     titlePlaceholder: 'Bingo title',
@@ -99,6 +101,7 @@ export const translations: Record<Lang, Dictionary> = {
     menu: 'Menu',
     lightMode: 'Modo claro',
     darkMode: 'Modo escuro',
+    feedback: '💬 Dar feedback',
     grid: 'Grade',
     clearBoard: 'Limpar cartela',
     titlePlaceholder: 'Título do bingo',
