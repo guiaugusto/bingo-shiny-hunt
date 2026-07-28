@@ -78,6 +78,7 @@ button {
   border: 1px solid transparent;
   background: transparent;
   color: var(--color-text);
+  text-decoration: none;
 }
 .btn-primary {
   border-color: var(--color-accent);
@@ -291,25 +292,17 @@ button {
   .sbm-header-group--stack {
     flex-direction: column;
     align-items: stretch;
-    gap: 1px;
-    padding: 0;
+    gap: 8px;
+    padding: 4px 10px 8px;
   }
   .sbm-header-group--stack .btn {
     width: 100%;
     justify-content: flex-start;
     gap: 10px;
-    padding: 9px 8px;
-    border-radius: var(--radius-md);
-    border-color: transparent;
-    background: transparent;
     font-size: 13px;
   }
-  .sbm-header-group--stack .btn:hover,
-  .sbm-header-group--stack .btn:focus-visible {
-    background: color-mix(in srgb, var(--color-text) 8%, transparent);
-  }
   .sbm-header-group--stack .btn-icon {
-    padding: 9px 8px;
+    padding: 8px 14px;
   }
 
   .sbm-github-label {
