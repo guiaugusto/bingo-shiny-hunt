@@ -144,6 +144,12 @@ export function useBingoStore() {
     downloadBlob(blob, `${slugify(bingo.title)}-${new Date().toISOString().slice(0, 10)}.json`);
   }, []);
 
+  const exportAllBingos = useCallback(() => {
+    const payload = buildExportPayload(bingos);
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    downloadBlob(blob, `bingo-shiny-hunt-backup-${new Date().toISOString().slice(0, 10)}.json`);
+  }, [bingos]);
+
   const importBingos = useCallback(
     async (file: File): Promise<ImportSummary> => {
       let text: string;
@@ -196,6 +202,7 @@ export function useBingoStore() {
     undoClear,
     hasUndo: !!undoSnapshot,
     exportBingo,
+    exportAllBingos,
     importBingos,
   };
 }

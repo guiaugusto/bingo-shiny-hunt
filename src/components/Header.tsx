@@ -13,6 +13,7 @@ interface HeaderProps {
   onExportPNG: () => void;
   onExportSVG: () => void;
   onExportData: () => void;
+  onExportAllData: () => void;
   onImportData: (file: File) => void;
   view: View;
   onViewChange: (v: View) => void;
@@ -25,6 +26,7 @@ export default function Header({
   onExportPNG,
   onExportSVG,
   onExportData,
+  onExportAllData,
   onImportData,
   view,
   onViewChange,
@@ -199,6 +201,9 @@ export default function Header({
               <div className="sbm-header-group sbm-header-group--stack">
                 <button className="btn btn-secondary" onClick={runAndClose(onExportData)}>
                   {t.exportData}
+                </button>
+                <button className="btn btn-secondary" onClick={runAndClose(onExportAllData)}>
+                  {t.exportAllData}
                 </button>
                 <button className="btn btn-secondary" onClick={runAndClose(() => fileInputRef.current?.click())}>
                   {t.importData}

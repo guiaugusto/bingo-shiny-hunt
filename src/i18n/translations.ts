@@ -46,6 +46,7 @@ interface Dictionary {
   exportUntitled: string;
   exportCaughtOf: (caught: number, total: number) => string;
   exportData: string;
+  exportAllData: string;
   importData: string;
   importSummary: (imported: number, skipped: number) => string;
   importInvalidFile: string;
@@ -104,6 +105,7 @@ export const translations: Record<Lang, Dictionary> = {
     exportUntitled: 'Shiny Bingo',
     exportCaughtOf: (caught, total) => `${caught} / ${total} caught`,
     exportData: '📤 Export board',
+    exportAllData: '📦 Export all boards',
     importData: '📥 Import board',
     importSummary: (imported, skipped) =>
       skipped > 0
@@ -163,6 +165,7 @@ export const translations: Record<Lang, Dictionary> = {
     exportUntitled: 'Bingo Shiny',
     exportCaughtOf: (caught, total) => `${caught} / ${total} capturados`,
     exportData: '📤 Exportar cartela',
+    exportAllData: '📦 Exportar todas as cartelas',
     importData: '📥 Importar cartela',
     importSummary: (imported, skipped) =>
       skipped > 0

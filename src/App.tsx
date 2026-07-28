@@ -30,6 +30,7 @@ export default function App() {
     undoClear,
     hasUndo,
     exportBingo,
+    exportAllBingos,
     importBingos,
   } = useBingoStore();
 
@@ -64,6 +65,7 @@ export default function App() {
         onExportPNG={() => exportPNG(active, { untitled: t.exportUntitled, caughtOf: t.exportCaughtOf })}
         onExportSVG={() => exportSVG(active, { untitled: t.exportUntitled, caughtOf: t.exportCaughtOf })}
         onExportData={() => exportBingo(active)}
+        onExportAllData={exportAllBingos}
         onImportData={handleImport}
         view={view}
         onViewChange={setView}
