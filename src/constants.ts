@@ -74,3 +74,5 @@ export const GAME_DEX_FILES: Record<string, string[]> = {
 export const CAUGHT_COLOR = '#34d399';
 
 export const FEEDBACK_FORM_URL = 'https://forms.gle/Zh3LAjTvVESucVhUA';
+
+export const GITHUB_REPO_URL = 'https://github.com/guiaugusto/bingo-shiny-hunt';

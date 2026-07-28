@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react';
-import { FEEDBACK_FORM_URL, SIZES } from '../constants';
+import { FEEDBACK_FORM_URL, GITHUB_REPO_URL, SIZES } from '../constants';
 import { useI18n } from '../i18n/I18nContext';
 import LanguageToggle from './LanguageToggle';
 import ThemeToggle from './ThemeToggle';
+import GitHubIcon from './GitHubIcon';
 
 interface HeaderProps {
   size: number;
@@ -129,15 +130,28 @@ export default function Header({
             </button>
           </div>
 
-          <a
-            href={FEEDBACK_FORM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-secondary"
-            onClick={() => setMenuOpen(false)}
-          >
-            {t.feedback}
-          </a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+            <a
+              href={FEEDBACK_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary"
+              onClick={() => setMenuOpen(false)}
+            >
+              {t.feedback}
+            </a>
+            <a
+              href={GITHUB_REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-icon btn-secondary"
+              aria-label={t.githubRepo}
+              title={t.githubRepo}
+              onClick={() => setMenuOpen(false)}
+            >
+              <GitHubIcon />
+            </a>
+          </div>
         </div>
       </div>
 
