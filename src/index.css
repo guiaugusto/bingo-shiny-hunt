@@ -229,7 +229,7 @@ button {
 
 /* Material-style navigation drawer: slides in from the left (same side as
    the ☰ trigger), full height, borderless list rows with a leading icon. */
-@media (max-width: 720px) {
+@media (max-width: 1024px) {
   .sbm-header-row {
     display: flex;
     flex-wrap: wrap;

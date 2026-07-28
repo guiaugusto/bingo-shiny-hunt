@@ -63,7 +63,7 @@ fix: prevent sprite from overlapping the name/tag row
 
 - [ ] `npm run build` passes.
 - [ ] You manually tested the change in the browser — there's no automated test suite, so this is the real verification step. Exercise the actual flow you changed, not just "it compiles."
-- [ ] If you touched layout or styling, check it at a mobile width (≤720px) as well as desktop — mobile responsiveness is a priority for this project.
+- [ ] If you touched layout or styling, check it at a mobile/tablet width (≤1024px) as well as desktop — mobile responsiveness is a priority for this project.
 - [ ] If you added/changed UI text, both `en` and `pt-BR` are updated.
 - [ ] The PR is focused on one change. Unrelated fixes or refactors should be their own PR.
 

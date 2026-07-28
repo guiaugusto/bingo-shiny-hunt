@@ -19,5 +19,5 @@
 - [ ] `npm run build` passes (typecheck + production build)
 - [ ] I manually tested the change in the browser (`npm run dev`) — this project has no automated test suite
 - [ ] If I added/changed user-facing text, I updated **both** `en` and `pt-BR` in `src/i18n/translations.ts`
-- [ ] If I changed layout or styling, I checked it at a mobile width (≤720px) as well as desktop
+- [ ] If I changed layout or styling, I checked it at a mobile/tablet width (≤1024px) as well as desktop
 - [ ] I followed the existing code style (see [CONTRIBUTING.md](../CONTRIBUTING.md))
